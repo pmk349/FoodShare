@@ -1,0 +1,31 @@
+from utils.default import *
+
+
+
+def join_pantry(shopper_id: int, pantry_id: int,): # TODO: add typing/output
+    '''
+    :param shopper_id: the id of the shopper
+    :param pantry_id: the pantry to join
+    '''
+
+    if dummy_security_measure():
+        '''
+        Security:
+        
+        1. shopper_id exists
+        2. pantry_id exists
+        '''
+
+        sql=f'''
+        begin
+        insert into pantry_shopper
+        values ({shopper_id},{pantry_id})
+        commit;
+        '''
+
+        # commit sql
+        dummy_sql_commit(sql)
+        return ...
+    return ...
+
+
