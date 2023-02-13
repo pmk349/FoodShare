@@ -1,7 +1,9 @@
 import hashlib
 import datetime
+import postgres_utils
 
 from random import random
+from sqlalchemy.engine import Engine
 
 def dummy_security_measure() -> bool:
     '''
@@ -11,16 +13,6 @@ def dummy_security_measure() -> bool:
     cond = True
     return cond
 
-def dummy_sql_commit(sql: str) -> ...: #TODO: typing, look into Postgres Hook
-    '''
-    Replace with sql hook
-
-    Return true or false depending on return,
-        if return is empty, return false
-    '''
-
-    cond = True
-    return cond
 
 # returns an encrypted password
 def encrypt_password(password: str) -> str:
@@ -28,7 +20,7 @@ def encrypt_password(password: str) -> str:
     return hash_object.hexdigest()
 
 # returns a new, unique id for any given table
-def generate_id(table: str) -> int:
+def generate_id(table: str, engine: Engine) -> int:
     flag=True
     while flag:
         rand_id=random.randint(0, 9999999)
@@ -37,5 +29,5 @@ def generate_id(table: str) -> int:
         from {table}
         where id={rand_id};
         '''
-        flag=dummy_sql_commit(sql)
+        flag=exec_sql(engine, sql)
     return rand_id
