@@ -1,6 +1,9 @@
-from default import *
+from utils.default import *
+from utils.postgres_utils import *
+from sqlalchemy.engine import Engine
 
-def create_account(email: str, password: str, acc_type: str):
+def create_account(email: str, password: str, acc_type: str,
+                  engine: Engine):
     '''
     :param email: an email address
     :type email: str
@@ -23,4 +26,4 @@ def create_account(email: str, password: str, acc_type: str):
         commit;
         '''
         # commit sql
-        dummy_sql_commit(sql)
+        exec_sql(engine, sql)
