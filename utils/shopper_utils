@@ -1,8 +1,11 @@
 from utils.default import *
+from utils.postgres_utils import *
+
+from sqlalchemy.engine import Engine
 
 
 
-def join_pantry(shopper_id: int, pantry_id: int,): # TODO: add typing/output
+def join_pantry(shopper_id: int, pantry_id: int, engine: Engine): # TODO: add typing/output
     '''
     :param shopper_id: the id of the shopper
     :param pantry_id: the pantry to join
@@ -24,8 +27,7 @@ def join_pantry(shopper_id: int, pantry_id: int,): # TODO: add typing/output
         '''
 
         # commit sql
-        dummy_sql_commit(sql)
-        return ...
+        return exec_sql(engine, sql)
     return ...
 
 
