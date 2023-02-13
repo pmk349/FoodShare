@@ -1,9 +1,8 @@
-import hashlib
-import datetime
-import postgres_utils
-
+from utils.postgres_utils import *
 from random import random
 from sqlalchemy.engine import Engine
+import hashlib
+import datetime
 
 def dummy_security_measure() -> bool:
     '''
