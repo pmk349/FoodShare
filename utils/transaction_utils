@@ -1,9 +1,11 @@
 from utils.default import *
+from utils.postgres_utils import *
 from datetime import datetime
-
+from sqlalchemy.engine import Engine
 
 def create_transaction(shopper_id: int, pantry_id: int, item_id: int,
-                       action: str, quantity: int, description: str): #TODO: add typing/output
+                       action: str, quantity: int, description: str,
+                       engine: Engine): #TODO: add typing/output
     '''
     :param shopper_id: the id of the requesting shopper
     :param pantry_id: the id of the pantry to which the request is made
@@ -39,7 +41,7 @@ def create_transaction(shopper_id: int, pantry_id: int, item_id: int,
         '''
 
         # commit sql
-        dummy_sql_commit(sql)
+        exec_sql(engine, sql)
 
         # TODO: add trigger to notify pantry manager?
         return...
@@ -70,7 +72,7 @@ def update_transaction(transaction_id: id, new_status: str):  # TODO: add typing
         '''
 
         # commit sql
-        dummy_sql_commit(sql)
+        exec_sql(engine, sql)
 
         # TODO: add trigger to notify shopper?
         return ...
