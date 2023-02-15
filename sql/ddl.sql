@@ -1,6 +1,5 @@
 create schema foodshare_db;
 
-use foodshare_db;
 
 create table account(
     id          bigint not null,
@@ -13,13 +12,6 @@ create table account(
           or acc_type='shopper')
 );
 
-create table pantry_shopper(
-    pantry_id     bigint not null,
-    shopper_id    bigint not null,
-    primary key(pantry_id, shopper_id),
-    foreign key(pantry_id) references pantry(id),
-    foreign key(shopper_id) references account(id)
-);
 
 create table pantry(
     id          bigint not null,
@@ -30,6 +22,16 @@ create table pantry(
     foreign key(manager_id) references account(id)
 );
 
+
+create table pantry_shopper(
+    pantry_id     bigint not null,
+    shopper_id    bigint not null,
+    primary key(pantry_id, shopper_id),
+    foreign key(pantry_id) references pantry(id),
+    foreign key(shopper_id) references account(id)
+);
+
+
 create table inventory(
     pantry_id   bigint not null,
     item_id     bigint not null,
@@ -38,19 +40,19 @@ create table inventory(
     foreign key(item_id) references inventory_item(id)
 );
 
+
 create table inventory_item(
     id          bigint not null,
     item_type   varchar(20) not null,
     quantity    int not null,
-    origin_id   bigint not null,
     expiration_date date,
     description     varchar(200),
     image           bytea,
 
     primary key(id),
-    check(quantity>=0),
-    foreign key(origin_id) references transaction(id)
+    check(quantity>=0)
 );
+
 
 create table transaction(
     id          bigint not null,
