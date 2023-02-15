@@ -58,7 +58,7 @@ create table transaction(
     id          bigint not null,
     shopper_id  bigint not null,
     pantry_id   bigint not null,
-    item_id     bigint not null,
+    item_id     bigint,
     request_time    datetime not null,
     request_status  varchar(10) not null,
     request_action  varchar(10) not null,
