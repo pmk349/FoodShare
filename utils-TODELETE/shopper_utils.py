@@ -31,3 +31,6 @@ def join_pantry(shopper_id: int, pantry_id: int, engine: Engine): # TODO: add ty
     return ...
 
 
+def make_request()
+
+

@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -22,6 +23,8 @@ def get_db():
 
 @app.post("/account/", response_model=schemas.Account)
 def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):
+
+    # check that email does not exist already
     db_account = crud.get_account_by_email(db, email=account.email)
     if db_account:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -29,7 +32,7 @@ def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)
 
 
 @app.get("/account/", response_model=List[schemas.Account])
-def read_accountss(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_accounts(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     accounts = crud.get_accounts(db, skip=skip, limit=limit)
     return accounts
 
