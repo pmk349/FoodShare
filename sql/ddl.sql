@@ -32,14 +32,6 @@ create table pantry_shopper(
 );
 
 
-create table inventory(
-    pantry_id   bigint not null,
-    item_id     bigint not null,
-
-    primary key(pantry_id, item_id),
-    foreign key(item_id) references inventory_item(id)
-);
-
 
 create table inventory_item(
     id          bigint not null,
@@ -53,13 +45,22 @@ create table inventory_item(
     check(quantity>=0)
 );
 
+create table inventory(
+    pantry_id   bigint not null,
+    item_id     bigint not null,
+
+    primary key(pantry_id, item_id),
+    foreign key(item_id) references inventory_item(id)
+);
+
+
 
 create table transaction(
     id          bigint not null,
     shopper_id  bigint not null,
     pantry_id   bigint not null,
     item_id     bigint,
-    request_time    datetime not null,
+    request_time    timestamp not null,
     request_status  varchar(10) not null,
     request_action  varchar(10) not null,
     quantity        int not null,
