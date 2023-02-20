@@ -1,6 +1,6 @@
 # Use Cases
 
-# Shoppers
+# A. Shoppers
 
 ## 1. Browse New Pantries
         A. view a list of pantries with location in menu
@@ -21,7 +21,7 @@
         B. Toggle nofiticaitons on/off for any given pantry
 
 
-# Managers
+# B. Managers
 
 ## 1. Everything from Shoppers
 
@@ -31,7 +31,7 @@
 
 ## 4. Respond to Transaction Request
 
-# Any User
+# C. Any User
 ## 1. Login
 ## 2. Logout
 ## 3. Create Account
