@@ -13,6 +13,7 @@ class AccountCreate(AccountBase):
 
 class Account(AccountBase):
     id: int
+    name: str
     account_type: str
 
     class Config:

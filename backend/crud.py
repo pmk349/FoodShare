@@ -24,20 +24,20 @@ def get_accounts(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Account).offset(skip).limit(limit).all()
 
 
-def create_account(db: Session, account: schemas.AccountCreate):
-    '''
-    Do we need to check that account_email is not already
-    in the database?
+# def create_account(db: Session, account: schemas.AccountCreate):
+#     '''
+#     Do we need to check that account_email is not already
+#     in the database?
 
-    Email is unique in the DDL.
-    '''
+#     Email is unique in the DDL.
+#     '''
 
-    hashed_password = utils.encrypt_password(account.password)
-    db_account = models.Account(email=account.email, hashed_password=hashed_password)
-    db.add(db_account)
-    db.commit()
-    db.refresh(db_account)
-    return db_account
+#     hashed_password = utils.encrypt_password(account.password)
+#     db_account = models.Account(email=account.email, hashed_password=hashed_password)
+#     db.add(db_account)
+#     db.commit()
+#     db.refresh(db_account)
+#     return db_account
 
 
 '''
