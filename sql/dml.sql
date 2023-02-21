@@ -14,10 +14,10 @@ insert into pantry(id, name, manager_id) values
     (2, 'food4none', 5, '101 Johnson St, Brooklyn, NY 11201');
 
 insert into pantry_shopper(pantry_id, shopper_id) values
-    (1,1),
-    (1,2),
-    (1,3),
-    (1,5),
-    (2,1),
-    (2,2),
-    (2,3);
+    (1,1,FALSE),
+    (1,2,TRUE),
+    (1,3,FALSE),
+    (1,5,FALSE),
+    (2,1,TRUE),
+    (2,2,FALSE),
+    (2,3,TRUE);

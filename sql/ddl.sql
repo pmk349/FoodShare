@@ -28,6 +28,7 @@ create table pantry(
 create table pantry_shopper(
     pantry_id     bigint not null,
     shopper_id    bigint not null,
+    notifications boolean not null,
     primary key(pantry_id, shopper_id),
     foreign key(pantry_id) references pantry(id),
     foreign key(shopper_id) references account(id)
