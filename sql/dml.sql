@@ -10,8 +10,8 @@ insert into account(id, email, password, acc_type) values
 
 
 insert into pantry(id, name, manager_id) values
-    (1, 'food4everyone', 4),
-    (2, 'food4none', 5);
+    (1, 'food4everyone', 4, '55 Clark St, Brooklyn, NY 11201'),
+    (2, 'food4none', 5, '101 Johnson St, Brooklyn, NY 11201');
 
 insert into pantry_shopper(pantry_id, shopper_id) values
     (1,1),

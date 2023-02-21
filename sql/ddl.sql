@@ -17,6 +17,7 @@ create table pantry(
     id          bigint not null,
     name    varchar(40) not null,
     manager_id  bigint not null,
+    address  varchar(40) not null,
 
     primary key(id),
     foreign key(manager_id) references account(id)
