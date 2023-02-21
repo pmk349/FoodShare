@@ -3,6 +3,7 @@ create schema foodshare_db;
 
 create table account(
     id          bigint not null,
+    name        varchar(20) not null unique,
     email       varchar(20) not null unique,
     password    varchar(40) not null,
     acc_type    varchar(10) not null,
