@@ -3,12 +3,16 @@ from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+import crud, models, schemas
+from database import SessionLocal, engine
 
+import uvicorn
+
+print("hi")
 
 models.Base.metadata.create_all(bind=engine)
 
+print("hello")
 app = FastAPI()
 
 
@@ -44,3 +48,5 @@ def read_account(account_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Account not found")
     return db_account
 
+if __name__ == "__main__":
+    uvicorn.run("main:app", port=5000, log_level="info")

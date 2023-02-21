@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from utils import utils
 
-from . import models, schemas
+import models, schemas
 
 
 def get_account_by_id(db: Session, account_id: int):

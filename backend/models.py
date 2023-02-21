@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from .database import Base
+from database import Base
 
 
 class Account(Base):
@@ -17,6 +17,7 @@ class Account(Base):
 
 '''
 Build these later...
+'''
 '''
 class Pantry(Base):
     __tablename__ = 'pantry'
@@ -58,3 +59,5 @@ class Transaction(Base):
     req_action = ...
     quantity = ...
     description = ...
+
+'''
