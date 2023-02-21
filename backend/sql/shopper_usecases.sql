@@ -1,7 +1,5 @@
 
 
-
-
 -- get all pantries
 select p.name, p.address
 from pantry as p;
@@ -22,4 +20,6 @@ where i.pantry_id = {ID}
 -- join a pantry
 insert into pantry_shopper(pantry_id, shopper_id)
 values ({PANTRY_ID}, {SHOPPER_ID});
+
+-- create transaction
 

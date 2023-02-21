@@ -1,5 +1,5 @@
 ## to do
-### add location to pantry
+### add notifications_on? field to pantry_shopper
 
 ## transactions
 
