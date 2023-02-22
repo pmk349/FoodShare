@@ -6,11 +6,11 @@ create table account(
     name        varchar(20) not null unique,
     email       varchar(20) not null unique,
     password    varchar(40) not null,
-    acc_type    varchar(10) not null,
+    account_type    varchar(10) not null,
 
     primary key(id),
-    check(acc_type='manager'
-          or acc_type='shopper')
+    check(account_type='manager'
+          or account_type='shopper')
 );
 
 

@@ -6,13 +6,10 @@ from sqlalchemy.orm import Session
 import crud, models, schemas
 from database import SessionLocal, engine
 
-import uvicorn
 
-print("hi")
 
 models.Base.metadata.create_all(bind=engine)
 
-print("hello")
 app = FastAPI()
 
 
@@ -27,7 +24,6 @@ def get_db():
 
 @app.post("/account/", response_model=schemas.Account)
 def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):
-
     # check that email does not exist already
     db_account = crud.get_account_by_email(db, email=account.email)
     if db_account:
@@ -49,4 +45,5 @@ def read_account(account_id: int, db: Session = Depends(get_db)):
     return db_account
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=5000, log_level="info")
+    import uvicorn
+    uvicorn.run(app, host = "127.0.0.1", port=5000)
