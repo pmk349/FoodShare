@@ -18,3 +18,19 @@ class Account(AccountBase):
 
     class Config:
         orm_mode = True
+
+
+class PantryBase(BaseModel):
+    address: str
+
+
+class PantryCreate(PantryBase):
+    name: str
+
+
+class Pantry(PantryBase):
+    id: int
+    manager_id: int
+
+    class Config:
+        orm_mode = True

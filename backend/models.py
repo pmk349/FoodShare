@@ -16,16 +16,19 @@ class Account(Base):
     # items = relationship("Item", back_populates="owner")
 
 
+class Pantry(Base):
+    __tablename__ = 'pantry'
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique = True, index = True)
+    manager_id = Column(Integer, unique = True, index = True)
+    address = Column(String)
+
+
 '''
 Build these later...
 '''
 '''
-class Pantry(Base):
-    __tablename__ = 'pantry'
-
-    id = ...
-    name = ...
-    manager_id = ...
 
 class Pantry_Shopper(Base):
     __tablename__ = 'pantry_shopper'

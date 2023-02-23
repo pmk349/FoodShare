@@ -41,6 +41,39 @@ def create_account(db: Session, account: schemas.AccountCreate):
     return db_account
 
 
+def get_pantry_by_id(db: Session, pantry_id: int):
+    return db.query(models.Pantry).filter(models.Pantry.id == pantry_id).first()
+
+def get_pantry_by_address(db: Session, address: str):
+    '''
+    Email is unique in the DDL.
+    '''
+    return db.query(models.Pantry).filter(models.Pantry.address == address).first()
+
+def get_pantries(db: Session, skip: int = 0, limit: int = 100):
+    '''
+    What does this funciton do?
+
+    Just returns an array of accounts?
+    '''
+    return db.query(models.Pantry).offset(skip).limit(limit).all()
+
+def create_pantry(db: Session, pantry: schemas.PantryCreate):
+    '''
+    Do we need to check that account_email is not already
+    in the database?
+
+    Email is unique in the DDL.
+    '''
+    id = (db.query(func.max(models.Pantry.id)).one())[0] + 1
+    db_pantry = models.Pantry(id = id, name = pantry.name, manager_id = None, address = pantry.address)
+    db.add(db_pantry)
+    db.commit()
+    db.refresh(db_pantry)
+    return db_pantry
+
+
+
 
 '''
     List of CRUD operations to create
