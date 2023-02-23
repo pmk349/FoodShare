@@ -23,7 +23,6 @@ def get_db():
 
 @app.post("/account/", response_model=schemas.Account)
 def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):
-
     # check that email does not exist already
     db_account = crud.get_account_by_email(db, email=account.email)
     if db_account:

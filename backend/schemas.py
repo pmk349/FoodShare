@@ -8,13 +8,13 @@ class AccountBase(BaseModel):
 
 
 class AccountCreate(AccountBase):
+    name: str
     password: str
+    account_type: str
 
 
 class Account(AccountBase):
     id: int
-    name: str
-    account_type: str
 
     class Config:
         orm_mode = True
