@@ -1,4 +1,4 @@
-create schema foodshare_db;
+-- create schema foodshare_db;
 
 
 create table account(
@@ -70,7 +70,8 @@ create table transaction(
 
     primary key(id),
     foreign key(shopper_id) references account(id),
-    foreign key(pantry_id, item_id) references inventory(pantry_id,item_id),
+    foreign key(pantry_id) references pantry(id),
+    foreign key(item_id) references inventory_item(id),
     check(request_status='pending'
         or request_status='approved'
         or request_status='denied'
