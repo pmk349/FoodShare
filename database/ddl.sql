@@ -35,13 +35,12 @@ create table pantry_shopper(
 );
 
 
-
 create table inventory_item(
     id          bigint not null,
     item_type   varchar(20) not null,
     quantity    int not null,
     expiration_date date,
-    description     varchar(200),
+    summary     varchar(200),
     image           bytea,
 
     primary key(id),
@@ -81,3 +80,5 @@ create table transaction(
     ),
     check(quantity>0)
 );
+
+

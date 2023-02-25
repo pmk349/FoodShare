@@ -12,7 +12,7 @@ where p.id = s.pantry_id
 
 
 -- get the inventory of a single pantry
-select t.item_type, t.image, t.quantity, t.description, t.expr_date
+select t.item_type, t.image, t.quantity, t.description, t.experation_date
 from inventory as i, inventory_item as t
 where i.pantry_id = {ID}
     and i.item_id = t.id;
