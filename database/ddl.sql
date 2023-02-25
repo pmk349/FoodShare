@@ -66,7 +66,7 @@ create table transaction(
     request_status  varchar(10) not null,
     request_action  varchar(10) not null,
     quantity        int not null,
-    description     varchar(400) not null,
+    summary     varchar(400) not null,
 
     primary key(id),
     foreign key(shopper_id) references account(id),
@@ -80,5 +80,3 @@ create table transaction(
     ),
     check(quantity>0)
 );
-
-
