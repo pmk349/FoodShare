@@ -22,9 +22,8 @@ insert into pantry_shopper(pantry_id, shopper_id, notifications) values
     (2,3,TRUE);
 
 
-insert into inventory_item(id, item_type, quantity, expiration_date, summary, image) values (
-    (1, 'beans', 3, 2024-02-26, '12oz bag of dried pinto beans', Null),
-    (2, 'bananas', 6, 2023-03-02, 'bunches of bananas', Null),
-    (3, 'apples', 5, 2023-03-13, 'individual apples', Null),
-    (1, 'apples', 10, 2023-03-12, 'new apples to donate', Null)
-);
+insert into inventory_item(id, item_type, quantity, expiration_date, summary, image) values
+    (1, 'beans', 3, cast('2024-02-26' as date), '12oz bag of dried pinto beans', Null),
+    (2, 'bananas', 6, cast('2023-03-02' as date), 'bunches of bananas', Null),
+    (3, 'apples', 5, cast('2023-03-13' as date), 'individual apples', Null),
+    (4, 'apples', 10, cast('2023-03-12' as date), 'new apples to donate', Null);
