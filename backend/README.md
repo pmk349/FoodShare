@@ -1,4 +1,4 @@
-# Use Cases
+# User Stories - INCOMPLETE
 
 # A. Shoppers
 
@@ -33,6 +33,7 @@
                 1. set status to 'pending'
                 2. set item_id to NEW entry in inventory_item
 
+## 6. Turn notifications on/off
 
 
 # B. Managers
