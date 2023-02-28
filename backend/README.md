@@ -1,6 +1,6 @@
 # User Stories - INCOMPLETE
 
-# A. Shoppers
+# A. Any User
 
 ## 1. Browse New Pantries
         A. view a list of pantries with location in menu
@@ -35,6 +35,10 @@
 
 ## 6. Turn notifications on/off
 
+## 7. Login
+## 8. Logout
+## 9. Create Account
+## 10. Delete Account
 
 # B. Managers
 
@@ -54,8 +58,4 @@
             ii. Disapproval
                 1. set status to 'disapproved'
                 2. use item_id to DROP entry from inventory_item
-# C. Any User
-## 1. Login
-## 2. Logout
-## 3. Create Account
-## 4. Delete Account
+
