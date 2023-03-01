@@ -32,13 +32,10 @@
             i.  Pre-Approval
                 1. set status to 'pending'
                 2. set item_id to NEW entry in inventory_item
-
-## 6. Turn notifications on/off
-
-## 7. Login
-## 8. Logout
-## 9. Create Account
-## 10. Delete Account
+## 5. Login
+## 6. Logout
+## 7. Create Account
+## 8. Delete Account
 
 # B. Managers
 
@@ -46,10 +43,20 @@
 
 ## 2. Create a Pantry
         ?. Should Manager-Pantry be One-to-One
+    
+
 ## 3. Manually Edit their Pantry's Inventory
 
 ## 4. Respond to Transaction Request
-        A. ???        
+        * when a shopper creates a transaction (3, 4), 
+            the API should also create a notification
+            to the pantry manager
+
+        A. send notification following request
+            i. get pantry manager email
+            ii. create email(?) with transaction info
+                aka. templated html file
+            iii. send email 
 
         B. update tables following manager-response
             i.  Approval
