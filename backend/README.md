@@ -66,3 +66,4 @@
                 1. set status to 'disapproved'
                 2. use item_id to DROP entry from inventory_item
 
+## 5. View your Pantry's Transaction History
