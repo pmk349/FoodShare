@@ -67,6 +67,7 @@ create table transaction(
     request_action  varchar(10) not null,
     quantity        int not null,
     summary     varchar(400) not null,
+    anonymous   bool,
 
     primary key(id),
     foreign key(shopper_id) references account(id),
