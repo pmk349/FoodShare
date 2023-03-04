@@ -56,7 +56,7 @@ insert into inventory(pantry_id, item_id) values
     # 4. respond  to transaction request
 
 -- update transaction status
-update transaction as t
+update transaction_request as t
 set request_status='{new_status}'
 where id={transaction_id}
   and exists(
@@ -74,7 +74,7 @@ select case
     ('anonymous shopper', t.request_time, t.request_action, t.request_status, t.request_summary)
     when t.anonymous != True then
     (a.name, t.request_time, t.request_action, t.request_status, t.request_summary)
-from transaction as t, pantry as p, account as a
+from transaction_request as t, pantry as p, account as a
 where t.pantry_id = p.id
   and t.shopper_id = a.id
   and p.manager_id = {ID}

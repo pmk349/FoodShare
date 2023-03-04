@@ -57,7 +57,7 @@ create table inventory(
 
 
 
-create table transaction(
+create table transaction_request(
     id          bigint not null,
     shopper_id  bigint not null,
     pantry_id   bigint not null,
