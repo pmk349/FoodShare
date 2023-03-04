@@ -34,7 +34,7 @@ insert into inventory(pantry_id, item_id) values
 
 insert into transaction(id, shopper_id, pantry_id, item_id, request_time,
                         request_status, request_action, quantity, summary) values
-    (1, 1, 1, 1, cast('2023-02-26 12:30:00' as timestamp), 'approved', 'receive', 1, 'requesting beans, please'),
-    (2, 2, 1, 1, cast('2023-02-26 12:30:00' as timestamp), 'denied', 'receive', 6, 'requesting all the beans, please'),
-    (3, 1, 1, 1, cast('2023-02-27 12:30:00' as timestamp), 'pending', 'receive', 1, 'requesting beans again, please'),
-    (4, 4, 2, 4, cast('2024-02-26 12:30:00' as timestamp), 'approved', 'receive', 2, 'requesting to donate apples');
+    (1, 1, 1, 1, cast('2023-02-26 12:30:00' as timestamp), 'approved', 'receive', 1, 'requesting beans, please', True),
+    (2, 2, 1, 1, cast('2023-02-26 12:30:00' as timestamp), 'denied', 'receive', 6, 'requesting all the beans, please', True),
+    (3, 1, 1, 1, cast('2023-02-27 12:30:00' as timestamp), 'pending', 'receive', 1, 'requesting beans again, please', False),
+    (4, 4, 2, 4, cast('2024-02-26 12:30:00' as timestamp), 'approved', 'receive', 2, 'requesting to donate apples', False);

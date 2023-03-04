@@ -65,3 +65,16 @@ where id={transaction_id}
     where t.pantry_id = i.id
         and p.manager_id = {MANAGER_ID}
 );
+
+    # 5. view transaction history
+
+-- get transaction history
+select case
+    when t.anonymous = True then
+    ('anonymous shopper', t.request_time, t.request_action, t.request_status, t.request_summary)
+    when t.anonymous != True then
+    (a.name, t.request_time, t.request_action, t.request_status, t.request_summary)
+from transaction as t, pantry as p, account as a
+where t.pantry_id = p.id
+  and t.shopper_id = a.id
+  and p.manager_id = {ID}
