@@ -1,4 +1,4 @@
-drop table transaction;
+drop table transaction_request;
 drop table inventory;
 drop table inventory_item;
 drop table pantry_shopper;
