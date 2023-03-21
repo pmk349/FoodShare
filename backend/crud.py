@@ -73,6 +73,26 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
     return db_pantry
 
 
+def get_inventoryItem_by_id(db: Session, inventoryItem_id: int):
+    return db.query(models.Inventory_Item).filter(models.Inventory_Item.id == inventoryItem_id).first()
+
+def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
+    '''
+    Do we need to check that account_email is not already
+    in the database?
+
+    Email is unique in the DDL.
+    '''
+    if (db.query(func.max(models.Inventory_Item.id)).one())[0] != None:
+        id = (db.query(func.max(models.Inventory_Item.id)).one())[0] + 1
+    else:
+        id = 1
+    db_inventoryItem = models.Inventory_Item(id = id, item_type = inventoryItem.item_type, quantity = inventoryItem.quantity, expr_date = inventoryItem.expr_date, description = inventoryItem.description)
+    db.add(db_inventoryItem)
+    db.commit()
+    db.refresh(db_inventoryItem)
+    return db_inventoryItem
+
 
 
 '''

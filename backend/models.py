@@ -34,18 +34,18 @@ class Inventory_Item(Base):
     description = Column(String)
     # image = ...
 
-class Inventory(Base):
-    __tablename__ = 'inventory'
+# class Inventory(Base):
+#     __tablename__ = 'inventory'
 
-    pantry_id = Column(Integer, primary_key = True, index = True)
-    item_id = Column(Integer, primary_key = True, index = True)
+#     pantry_id = Column(Integer, primary_key = True, index = True)
+#     item_id = Column(Integer, primary_key = True, index = True)
 
-class Pantry_Shopper(Base):
-    __tablename__ = 'pantry_shopper'
+# class Pantry_Shopper(Base):
+#     __tablename__ = 'pantry_shopper'
 
-    pantry_id = Column(Integer, primary_key = True, index = True)
-    shopper_id = Column(Integer, primary_key = True, index = True)
-    notifications = Column(Boolean)
+#     pantry_id = Column(Integer, primary_key = True, index = True)
+#     shopper_id = Column(Integer, primary_key = True, index = True)
+#     notifications = Column(Boolean)
 
 
 # class Transaction(Base):

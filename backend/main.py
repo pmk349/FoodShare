@@ -69,7 +69,13 @@ def read_pantries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     pantries = crud.get_pantries(db, skip=skip, limit=limit)
     return pantries
 
-
+@app.post("/inventoryItem/", response_model=schemas.InventoryItem)
+def create_inventory_item(inventoryItem: schemas.InventoryItemCreate, db: Session = Depends(get_db)):
+    # check that email does not exist already
+    # db_inventory_item = crud.get_inventoryItem_by_id(db, id=inventoryItem.id)
+    # if db_inventory_item:
+    #     raise HTTPException(status_code=400, detail="Pantry already exists")
+    return crud.create_inventoryItem(db=db, inventoryItem=inventoryItem)
 
 if __name__ == "__main__":
     import uvicorn
