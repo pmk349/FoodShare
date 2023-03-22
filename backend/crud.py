@@ -4,7 +4,6 @@ from utils import utils
 
 import models, schemas
 
-
 def get_account_by_id(db: Session, account_id: int):
     return db.query(models.Account).filter(models.Account.id == account_id).first()
 
@@ -40,9 +39,23 @@ def create_account(db: Session, account: schemas.AccountCreate):
     db.refresh(db_account)
     return db_account
 
+#########################################################
+################ SHOPPER FUNCTIONS ######################
+#########################################################
+
+def get_pantries(db: Session, skip: int = 0, limit: int = 100):
+    '''
+    Return an array of accounts. (README-UserStory-A1A)
+    '''
+    return db.query(models.Pantry).offset(skip).limit(limit).all()
+
 
 def get_pantry_by_id(db: Session, pantry_id: int):
+    '''
+    Return info about a pantry/select a pantry. (README-UserStory-A1B)
+    '''
     return db.query(models.Pantry).filter(models.Pantry.id == pantry_id).first()
+
 
 def get_pantry_by_address(db: Session, address: str):
     '''
@@ -50,20 +63,72 @@ def get_pantry_by_address(db: Session, address: str):
     '''
     return db.query(models.Pantry).filter(models.Pantry.address == address).first()
 
-def get_pantries(db: Session, skip: int = 0, limit: int = 100):
-    '''
-    What does this funciton do?
 
-    Just returns an array of accounts?
+def get_inventory_by_pantryID(...):
     '''
-    return db.query(models.Pantry).offset(skip).limit(limit).all()
+    Returns an array of inventoryItems that are
+      in a given pantry's inventory.   (README-UserStory-A1C)
+    '''
+
+    # query on inventory by pantryID.
+
+    # call get_inventoryItem_by_id for pantry-item pair returned.
+
+    # return aggregate of inventoryItems.
+
+    pass
+
+
+def join_pantry(...):
+    '''
+    No return. Update pantry-shopper. (README-UserStory-A1B)
+    '''
+    pass
+
+
+def get_myPantries_by_shopperID(...):
+    '''
+    Return a list of pantries that the shopper
+        is already associated with. (README-UserStory-A2A)
+    '''
+
+    # query pantry-shopper by shopperID
+
+    # call get_pantry_by_id for all returned pairs
+
+    # return aggregate of pantry infos
+
+    pass
+
+
+def toggle_notifications(...):
+    '''
+    No return. Update notification in pantry_shopper. (README-UserStory-A2B)
+    '''
+    pass
+
+
+def create_transaction(..., action: str):
+    '''
+    (README-UserStory-A3/A4)
+    '''
+
+    if action == 'donate':
+        pass
+    if action == 'receive':
+        pass
+    else:
+        #error
+        pass
+
+#########################################################
+################ MANGER FUNCTIONS #######################
+#########################################################
+
 
 def create_pantry(db: Session, pantry: schemas.PantryCreate):
     '''
-    Do we need to check that account_email is not already
-    in the database?
-
-    Email is unique in the DDL.
+    (README-UserStory-B2).
     '''
     id = (db.query(func.max(models.Pantry.id)).one())[0] + 1
     db_pantry = models.Pantry(id = id, name = pantry.name, manager_id = None, address = pantry.address)
@@ -72,6 +137,10 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
     db.refresh(db_pantry)
     return db_pantry
 
+
+#########################################################
+################## TRANSACTIONS/MISC ####################
+#########################################################
 
 def get_inventoryItem_by_id(db: Session, inventoryItem_id: int):
     return db.query(models.Inventory_Item).filter(models.Inventory_Item.id == inventoryItem_id).first()
@@ -95,16 +164,4 @@ def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
 
 
 
-'''
-    List of CRUD operations to create
-    
-1. Shopper/Manager
-    a. join a pantry -- read + update
-    b. make a request -- ...
-2. Only Manager
-    a. manually edit pantry inventory -- read + update/delete
-    b. respond to request -- read + update
-3. 
 
-
-'''
