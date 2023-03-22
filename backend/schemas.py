@@ -34,3 +34,19 @@ class Pantry(PantryBase):
 
     class Config:
         orm_mode = True
+
+
+class InventoryItemBase(BaseModel):
+    item_type: str
+
+
+class InventoryItemCreate(InventoryItemBase):
+    quantity: int
+    expr_date: str
+    description: str
+
+class InventoryItem(InventoryItemBase):
+    id: int
+
+    class Config:
+        orm_mode = True
