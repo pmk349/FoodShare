@@ -13,8 +13,6 @@ class Account(Base):
     password = Column(String)
     account_type = Column(String)
 
-    # items = relationship("Item", back_populates="owner")
-
 
 class Pantry(Base):
     __tablename__ = 'pantry'
@@ -23,6 +21,13 @@ class Pantry(Base):
     name = Column(String, unique = True, index = True)
     manager_id = Column(Integer, unique = True, index = True)
     address = Column(String)
+
+class Pantry_Shopper(Base):
+    __tablename__ = 'pantry_shopper'
+
+    pantry_id = Column(Integer, primary_key = True, index = True)
+    shopper_id = Column(Integer, primary_key = True, index = True)
+    notifications = Column(Boolean)
 
 class Inventory_Item(Base):
     __tablename__ = 'inventory_item'
@@ -34,29 +39,24 @@ class Inventory_Item(Base):
     description = Column(String)
     # image = ...
 
-# class Inventory(Base):
-#     __tablename__ = 'inventory'
 
-#     pantry_id = Column(Integer, primary_key = True, index = True)
-#     item_id = Column(Integer, primary_key = True, index = True)
+class Inventory(Base):
+    __tablename__ = 'inventory'
 
-# class Pantry_Shopper(Base):
-#     __tablename__ = 'pantry_shopper'
-
-#     pantry_id = Column(Integer, primary_key = True, index = True)
-#     shopper_id = Column(Integer, primary_key = True, index = True)
-#     notifications = Column(Boolean)
+    pantry_id = Column(Integer, primary_key = True, index = True)
+    item_id = Column(Integer, primary_key = True, index = True)
 
 
-# class Transaction(Base):
-#     __tablename__ = 'transaction'
+class TransactionRequest(Base):
+    __tablename__ = 'transaction_request'
 
-#     id = ...
-#     shopper_id = ...
-#     pantry_id = ...
-#     item_id = ...
-#     req_time = ...
-#     req_status = ...
-#     req_action = ...
-#     quantity = ...
-#     description = ...
+    id = Column(Integer, primary_key = True, index = True)
+    shopper_id = Column(Integer)
+    pantry_id = Column(Integer)
+    item_id = Column(Integer)
+    req_time = Column(String)
+    req_status = Column(String) # Pending Approved Denied
+    req_action = Column(String) # Receive vs Donate
+    quantity = Column(Integer)
+    summary = Column(String)
+    anonymous = Column(Boolean)

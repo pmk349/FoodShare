@@ -61,7 +61,7 @@ def create_pantry(pantry: schemas.PantryCreate, db: Session = Depends(get_db)):
 def read_pantry(pantry_id: int, db: Session = Depends(get_db)):
     db_pantry = crud.get_pantry_by_id(db, pantry_id=pantry_id)
     if db_pantry is None:
-        raise HTTPException(status_code=404, detail="Account not found")
+        raise HTTPException(status_code=404, detail="Pantry not found")
     return db_pantry
 
 @app.get("/pantries/", response_model=List[schemas.Pantry])
@@ -71,11 +71,25 @@ def read_pantries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 
 @app.post("/inventoryItem/", response_model=schemas.InventoryItem)
 def create_inventory_item(inventoryItem: schemas.InventoryItemCreate, db: Session = Depends(get_db)):
-    # check that email does not exist already
-    # db_inventory_item = crud.get_inventoryItem_by_id(db, id=inventoryItem.id)
-    # if db_inventory_item:
-    #     raise HTTPException(status_code=400, detail="Pantry already exists")
     return crud.create_inventoryItem(db=db, inventoryItem=inventoryItem)
+
+@app.get("/inventoryItem/{id}", response_model=schemas.InventoryItem)
+def read_inventoryItem(id: int, db: Session = Depends(get_db)):
+    db_inventoryItem= crud.get_inventoryItem_by_id(db, id=id)
+    if db_inventoryItem is None:
+        raise HTTPException(status_code=404, detail="Inventory item not found")
+    return db_inventoryItem
+
+@app.get("/inventoryItems/", response_model=List[schemas.InventoryItem])
+def read_inventoryItems(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    inventoryItems = crud.get_inventoryItems(db, skip=skip, limit=limit)
+    return inventoryItems
+
+@app.post("/transactionRequest/", response_model=schemas.TransactionRequest)
+def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):
+    # check that email does not exist already
+    return crud.create_transactionRequest(db=db, transactionRequest=transactionRequest)
+
 
 if __name__ == "__main__":
     import uvicorn

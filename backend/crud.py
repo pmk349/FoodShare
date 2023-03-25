@@ -33,7 +33,11 @@ def create_account(db: Session, account: schemas.AccountCreate):
     '''
     id = (db.query(func.max(models.Account.id)).one())[0] + 1
     hashed_password = utils.encrypt_password(account.password)
-    db_account = models.Account(id = id, name = account.name, email=account.email, password=hashed_password, account_type = account.account_type)
+    db_account = models.Account(id = id, 
+                                name = account.name, 
+                                email=account.email, 
+                                password=hashed_password, 
+                                account_type = account.account_type)
     db.add(db_account)
     db.commit()
     db.refresh(db_account)
@@ -64,62 +68,72 @@ def get_pantry_by_address(db: Session, address: str):
     return db.query(models.Pantry).filter(models.Pantry.address == address).first()
 
 
-def get_inventory_by_pantryID(...):
-    '''
-    Returns an array of inventoryItems that are
-      in a given pantry's inventory.   (README-UserStory-A1C)
-    '''
+# def get_inventory_by_pantryID(...):
+#     '''
+#     Returns an array of inventoryItems that are
+#       in a given pantry's inventory.   (README-UserStory-A1C)
+#     '''
 
-    # query on inventory by pantryID.
+#     # query on inventory by pantryID.
 
-    # call get_inventoryItem_by_id for pantry-item pair returned.
+#     # call get_inventoryItem_by_id for pantry-item pair returned.
 
-    # return aggregate of inventoryItems.
+#     # return aggregate of inventoryItems.
 
-    pass
-
-
-def join_pantry(...):
-    '''
-    No return. Update pantry-shopper. (README-UserStory-A1B)
-    '''
-    pass
+#     pass
 
 
-def get_myPantries_by_shopperID(...):
-    '''
-    Return a list of pantries that the shopper
-        is already associated with. (README-UserStory-A2A)
-    '''
-
-    # query pantry-shopper by shopperID
-
-    # call get_pantry_by_id for all returned pairs
-
-    # return aggregate of pantry infos
-
-    pass
+# def join_pantry(...):
+#     '''
+#     No return. Update pantry-shopper. (README-UserStory-A1B)
+#     '''
+#     pass
 
 
-def toggle_notifications(...):
-    '''
-    No return. Update notification in pantry_shopper. (README-UserStory-A2B)
-    '''
-    pass
+# def get_myPantries_by_shopperID(...):
+#     '''
+#     Return a list of pantries that the shopper
+#         is already associated with. (README-UserStory-A2A)
+#     '''
+
+#     # query pantry-shopper by shopperID
+
+#     # call get_pantry_by_id for all returned pairs
+
+#     # return aggregate of pantry infos
+
+#     pass
 
 
-def create_transaction(..., action: str):
+# def toggle_notifications(...):
+#     '''
+#     No return. Update notification in pantry_shopper. (README-UserStory-A2B)
+#     '''
+#     pass
+
+
+def create_transactionRequest(db: Session, transactionRequest: schemas.TransactionRequestCreate):
     '''
     (README-UserStory-A3/A4)
     '''
-
-    if action == 'donate':
-        pass
-    if action == 'receive':
-        pass
+    if (db.query(func.max(models.TransactionRequest.id)).one())[0] != None:
+        id = (db.query(func.max(models.TransactionRequest.id)).one())[0] + 1
     else:
-        #error
-        pass
+        id = 1
+    db_transactionRequest = models.TransactionRequest(id = id, 
+                                                      shopper_id = transactionRequest.name, 
+                                                      pantry_id = transactionRequest.pantry_id, 
+                                                      item_id = transactionRequest.item_id,
+                                                      req_time = transactionRequest.req_time,
+                                                      req_status = transactionRequest.req_status,
+                                                      req_action = transactionRequest.req_action,
+                                                      quantity = transactionRequest.quantity,
+                                                      summary = transactionRequest.summary,
+                                                      anonymous = transactionRequest.anonymous)
+    db.add(db_transactionRequest)
+    db.commit()
+    db.refresh(db_transactionRequest)
+    return db_transactionRequest
 
 #########################################################
 ################ MANGER FUNCTIONS #######################
@@ -130,8 +144,15 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
     '''
     (README-UserStory-B2).
     '''
-    id = (db.query(func.max(models.Pantry.id)).one())[0] + 1
-    db_pantry = models.Pantry(id = id, name = pantry.name, manager_id = None, address = pantry.address)
+
+    if (db.query(func.max(models.Pantry.id)).one())[0] != None:
+        id = (db.query(func.max(models.Pantry.id)).one())[0] + 1
+    else:
+        id = 1
+    db_pantry = models.Pantry(id = id, 
+                              name = pantry.name, 
+                              manager_id = None, 
+                              address = pantry.address)
     db.add(db_pantry)
     db.commit()
     db.refresh(db_pantry)
@@ -145,6 +166,12 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
 def get_inventoryItem_by_id(db: Session, inventoryItem_id: int):
     return db.query(models.Inventory_Item).filter(models.Inventory_Item.id == inventoryItem_id).first()
 
+def get_inventoryItems(db: Session, skip: int = 0, limit: int = 100):
+    '''
+    Return an array of accounts. (README-UserStory-A1A)
+    '''
+    return db.query(models.Inventory_Item).offset(skip).limit(limit).all()
+
 def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
     '''
     Do we need to check that account_email is not already
@@ -156,7 +183,11 @@ def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
         id = (db.query(func.max(models.Inventory_Item.id)).one())[0] + 1
     else:
         id = 1
-    db_inventoryItem = models.Inventory_Item(id = id, item_type = inventoryItem.item_type, quantity = inventoryItem.quantity, expr_date = inventoryItem.expr_date, description = inventoryItem.description)
+    db_inventoryItem = models.Inventory_Item(id = id, 
+                                             item_type = inventoryItem.item_type, 
+                                             quantity = inventoryItem.quantity, 
+                                             expr_date = inventoryItem.expr_date, 
+                                             description = inventoryItem.description)
     db.add(db_inventoryItem)
     db.commit()
     db.refresh(db_inventoryItem)
