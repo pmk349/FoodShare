@@ -68,41 +68,21 @@ def get_pantry_by_address(db: Session, address: str):
     return db.query(models.Pantry).filter(models.Pantry.address == address).first()
 
 
-# def get_inventory_by_pantryID(...):
-#     '''
-#     Returns an array of inventoryItems that are
-#       in a given pantry's inventory.   (README-UserStory-A1C)
-#     '''
-
-#     # query on inventory by pantryID.
-
-#     # call get_inventoryItem_by_id for pantry-item pair returned.
-
-#     # return aggregate of inventoryItems.
-
-#     pass
+def join_pantry(db: Session, shopper_id: int, pantry_id: int):
+    '''
+    No return. Update pantry-shopper. (README-UserStory-A1B)
+    '''
+    db_pantryShopper = models.Pantry_Shopper(pantry_id = pantry_id,
+                                            shopper_id = shopper_id,
+                                            notifications = True)
+    db.add(db_pantryShopper)
+    db.commit()
+    db.refresh(db_pantryShopper)
+    return db_pantryShopper
 
 
-# def join_pantry(...):
-#     '''
-#     No return. Update pantry-shopper. (README-UserStory-A1B)
-#     '''
-#     pass
-
-
-# def get_myPantries_by_shopperID(...):
-#     '''
-#     Return a list of pantries that the shopper
-#         is already associated with. (README-UserStory-A2A)
-#     '''
-
-#     # query pantry-shopper by shopperID
-
-#     # call get_pantry_by_id for all returned pairs
-
-#     # return aggregate of pantry infos
-
-#     pass
+def get_myPantries_by_shopperID(db: Session, shopper_id: int):
+    return db.query(models.Pantry_Shopper).filter(models.Pantry_Shopper.shopper_id == shopper_id)
 
 
 # def toggle_notifications(...):
@@ -120,9 +100,9 @@ def create_transactionRequest(db: Session, transactionRequest: schemas.Transacti
         id = (db.query(func.max(models.TransactionRequest.id)).one())[0] + 1
     else:
         id = 1
-    db_transactionRequest = models.TransactionRequest(id = id, 
-                                                      shopper_id = transactionRequest.name, 
-                                                      pantry_id = transactionRequest.pantry_id, 
+    db_transactionRequest = models.TransactionRequest(id = id,
+                                                      shopper_id = transactionRequest.name,
+                                                      pantry_id = transactionRequest.pantry_id,
                                                       item_id = transactionRequest.item_id,
                                                       req_time = transactionRequest.req_time,
                                                       req_status = transactionRequest.req_status,
@@ -149,9 +129,9 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
         id = (db.query(func.max(models.Pantry.id)).one())[0] + 1
     else:
         id = 1
-    db_pantry = models.Pantry(id = id, 
-                              name = pantry.name, 
-                              manager_id = None, 
+    db_pantry = models.Pantry(id = id,
+                              name = pantry.name,
+                              manager_id = None,
                               address = pantry.address)
     db.add(db_pantry)
     db.commit()
@@ -172,6 +152,12 @@ def get_inventoryItems(db: Session, skip: int = 0, limit: int = 100):
     '''
     return db.query(models.Inventory_Item).offset(skip).limit(limit).all()
 
+def get_inventory_by_pantryID(db: Session, id: int):
+    '''
+    Return an array of accounts. (README-UserStory-A1A)
+    '''
+    return db.query(models.Inventory).filter(models.Inventory.pantry_id == id).all()
+
 def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
     '''
     Do we need to check that account_email is not already
@@ -183,10 +169,10 @@ def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
         id = (db.query(func.max(models.Inventory_Item.id)).one())[0] + 1
     else:
         id = 1
-    db_inventoryItem = models.Inventory_Item(id = id, 
-                                             item_type = inventoryItem.item_type, 
-                                             quantity = inventoryItem.quantity, 
-                                             expr_date = inventoryItem.expr_date, 
+    db_inventoryItem = models.Inventory_Item(id = id,
+                                             item_type = inventoryItem.item_type,
+                                             quantity = inventoryItem.quantity,
+                                             expr_date = inventoryItem.experation_date,
                                              description = inventoryItem.description)
     db.add(db_inventoryItem)
     db.commit()
