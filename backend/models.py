@@ -35,8 +35,8 @@ class Inventory_Item(Base):
     id = Column(Integer, primary_key = True, index = True)
     item_type = Column(String, unique = True, index = True)
     quantity = Column(Integer)
-    expr_date = Column(String)
-    description = Column(String)
+    expiration_date = Column(String)
+    summary = Column(String)
     # image = ...
 
 
