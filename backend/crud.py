@@ -68,7 +68,6 @@ def get_pantry_by_address(db: Session, address: str):
     return db.query(models.Pantry).filter(models.Pantry.address == address).first()
 
 
-
 def join_pantry(db: Session, shopper_id: int, pantry_id: int):
     '''
     No return. Update pantry-shopper. (README-UserStory-A1B)

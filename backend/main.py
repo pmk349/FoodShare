@@ -104,16 +104,6 @@ def read_inventoryItems(skip: int = 0, limit: int = 100, db: Session = Depends(g
 @app.post("/transactionRequest/", response_model=schemas.TransactionRequest)
 def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):
     # check that email does not exist already
-    '''
-    this needs to be replaced with more logic,
-    see
-
-    '''
-
-
-
-
-
     return crud.create_transactionRequest(db=db, transactionRequest=transactionRequest)
 
 
