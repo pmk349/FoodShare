@@ -73,12 +73,28 @@ def read_pantries(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 def create_inventory_item(inventoryItem: schemas.InventoryItemCreate, db: Session = Depends(get_db)):
     return crud.create_inventoryItem(db=db, inventoryItem=inventoryItem)
 
-@app.get("/inventoryItem/{id}", response_model=schemas.InventoryItem)
-def read_inventoryItem(id: int, db: Session = Depends(get_db)):
-    db_inventoryItem= crud.get_inventoryItem_by_id(db, id=id)
+@app.get("/inventoryItem/{item_id}", response_model=schemas.InventoryItem)
+def read_inventoryItem(item_id: int, db: Session = Depends(get_db)):
+    db_inventoryItem= crud.get_inventoryItem_by_id(db, inventoryItem_id=item_id)
     if db_inventoryItem is None:
         raise HTTPException(status_code=404, detail="Inventory item not found")
     return db_inventoryItem
+
+
+@app.get("/inventoryItem_by_Pantry/{pantry_id}", response_model=List[schemas.InventoryItem])
+def read_inventoryItem_by_pantryID(pantry_id: int, db: Session = Depends(get_db)):
+
+    inventory = crud.get_inventory_by_pantryID(db, id=pantry_id)
+    # if inventory is None:
+    #     raise HTTPException(status_code=404, detail="Pantry inventory is empty")
+
+    items = []
+    for pair in inventory:
+        item_id = pair.item_id
+        items.append(crud.get_inventoryItem_by_id(db, inventoryItem_id=item_id))
+
+    return items
+
 
 @app.get("/inventoryItems/", response_model=List[schemas.InventoryItem])
 def read_inventoryItems(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -91,6 +107,22 @@ def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreat
     return crud.create_transactionRequest(db=db, transactionRequest=transactionRequest)
 
 
+
+@app.post("/pantryShopper/{shopper_id}/{pantry_id}")
+def join_pantry(shopper_id: int, pantry_id: int, db: Session = Depends(get_db)):
+    rtn = crud.join_pantry(db=db, shopper_id=shopper_id, pantry_id=pantry_id)
+    if rtn is None:
+        raise HTTPException(status_code=404, detail="Internal Error")
+
+@app.get("/pantryShopper/{shopper_id}", response_model=List[schemas.Pantry])
+def get_myPantries(shopper_id: int, db: Session = Depends(get_db)):
+    myPantries = crud.get_myPantries_by_shopperID(db=db, shopper_id=shopper_id)
+
+    pantryInfo = []
+    for p in myPantries:
+        pantryInfo.append(crud.get_pantry_by_id(db=db, pantry_id=p.pantry_id))
+
+    return pantryInfo
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host = "127.0.0.1", port=8000)
