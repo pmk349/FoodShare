@@ -1,7 +1,7 @@
 from typing import List, Union
 
 from pydantic import BaseModel
-
+from datetime import date, datetime
 
 #########################################################
 ##################### Account ###########################
@@ -36,8 +36,7 @@ class PantryCreate(PantryBase):
 
 
 class Pantry(PantryBase):
-    id: int
-    manager_id: int
+    name: str
 
     class Config:
         orm_mode = True
@@ -69,15 +68,17 @@ class InventoryItemBase(BaseModel):
 
 class InventoryItemCreate(InventoryItemBase):
     quantity: int
-    expr_date: str
-    description: str
+    expiration_date: date
+    summary: str
 
 class InventoryItem(InventoryItemBase):
-    id: int
+    #id: int
+    quantity: int
+    expiration_date: date
+    summary: str
 
     class Config:
         orm_mode = True
-
 
 #########################################################
 #################### Inventory ##########################
