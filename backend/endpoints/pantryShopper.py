@@ -27,3 +27,6 @@ def get_myPantries(shopper_id: int, db: Session = Depends(get_db)):
         pantryInfo.append(crud.get_pantry_by_id(db=db, pantry_id=p.pantry_id))
 
     return pantryInfo
+
+
+## Toggle Notifications (func. req. 6)
