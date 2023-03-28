@@ -42,3 +42,6 @@ def read_inventoryItem_by_pantryID(pantry_id: int, db: Session = Depends(get_db)
 def read_inventoryItems(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     inventoryItems = crud.get_inventoryItems(db, skip=skip, limit=limit)
     return inventoryItems
+
+
+## Create/Remove InventoryItems manually, for managers only (func. req. 9)
