@@ -15,6 +15,9 @@ router = APIRouter()
 @router.post("/transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
 def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):
     # check that email does not exist already
+    
+    # TODO: review the logic in this
+    
     return crud.create_transactionRequest(db=db, transactionRequest=transactionRequest)
     
 ## Approve/Deny Transaction
