@@ -29,4 +29,11 @@ def get_myPantries(shopper_id: int, db: Session = Depends(get_db)):
     return pantryInfo
 
 
-## Toggle Notifications (func. req. 6)
+## Toggle Notifications (func. req. 6) INCOMPLETE
+@router.get("/pantryShopper/{shopper_id}/{pantry_id}/{notification_status}", tags=["Pantry Shopper"])
+def toggle_notifications(shopper_id: int, pantry_id: int, notification_status: bool, db: Session = Depends(get_db)):
+    rtn = crud.update_notifications(db=db, shopper_id=shopper_id, pantry_id=pantry_id,
+                                    notification_status=notification_status)
+    if rtn is None:
+        raise HTTPException(status_code=404, detail="Internal Error")
+

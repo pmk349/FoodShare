@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, and_
 from utils import utils
 
 import models, schemas
@@ -85,12 +85,18 @@ def get_myPantries_by_shopperID(db: Session, shopper_id: int):
     return db.query(models.Pantry_Shopper).filter(models.Pantry_Shopper.shopper_id == shopper_id)
 
 
-# def toggle_notifications(...):
-#     '''
-#     No return. Update notification in pantry_shopper. (README-UserStory-A2B)
-#     '''
-#     pass
+def update_notifications(db: Session, pantry_id: int, shopper_id: int, notification_status: bool):
+    '''
+    No return. Update notification in pantry_shopper. (README-UserStory-A2B)
+    '''
 
+    entry = db.query(models.Pantry_Shopper).filter( and_(models.Pantry_Shopper.shopper_id==shopper_id,
+                                                models.Pantry_Shopper.pantry_id==pantry_id)).one_or_none() #TODO FIX
+    if entry is None:
+        return None
+
+    setattr(entry, "notifications", notification_status)
+    db.commit()
 
 def create_transactionRequest(db: Session, transactionRequest: schemas.TransactionRequestCreate):
     '''
@@ -138,6 +144,21 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
     db.refresh(db_pantry)
     return db_pantry
 
+def add_item_to_pantry(db: Session, item_id: int, pantry_id: int):
+    db_entry = models.Inventory(pantry_id=pantry_id, item_id=item_id)
+    db.add(db_entry)
+    db.commit()
+    db.refresh(db_entry)
+    return db_entry
+
+def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int):
+    try:
+        db.query(models.Inventory).filter(models.Inventory.item_id==item_id
+                                          and models.Inventory.pantry_id==pantry_id).delete() #TODO: COMPLETE
+        db.commit()
+
+    except:
+        return None
 
 #########################################################
 ################## TRANSACTIONS/MISC ####################
