@@ -1,5 +1,10 @@
 # FoodShare
 
+# Notes
+# 1. create design pattern to connect front end to back end for basic login page
+# 2. 
+
+
 ## Initial Project Code
 
 # Backend
