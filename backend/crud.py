@@ -90,13 +90,13 @@ def update_notifications(db: Session, pantry_id: int, shopper_id: int, notificat
     No return. Update notification in pantry_shopper. (README-UserStory-A2B)
     '''
 
-    entry = db.query(models.Pantry_Shopper).filter(and_(models.Pantry_Shopper.shopper_id==shopper_id,
-                                                models.Pantry_Shopper.pantry_id==pantry_id)).one_or_none()
+    entry = db.query(models.Pantry_Shopper).filter(and_(models.Pantry_Shopper.pantry_id==pantry_id, models.Pantry_Shopper.shopper_id==shopper_id)) #.one_or_none()
     if entry is None:
         return None
 
     setattr(entry, "notifications", notification_status)
     db.commit()
+    return 0
 
 def create_transactionRequest(db: Session, transactionRequest: schemas.TransactionRequestCreate):
     '''
