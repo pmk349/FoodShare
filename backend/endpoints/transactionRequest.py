@@ -24,9 +24,10 @@ def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreat
 @router.post("/transactionRequest/{pantry_id}", response_model=List[schemas.TransactionRequest], tags=["Transaction Request"])
 def get_pending_transactions(pantry_id: int, db: Session = Depends(get_db)):
     return crud.get_pending_transactions(db=db, pantry_id=pantry_id)
-@router.post("/transactionHisotry/{pantry_id}", response_model=List[schemas.TransactionRequest], tags=["Transaction Request"])
+@router.post("/transactionHistory/{pantry_id}", response_model=List[schemas.TransactionRequest], tags=["Transaction Request"])
 def get_transaction_history(pantry_id: int, db: Session = Depends(get_db)):
     return crud.get_transaction_history(db=db, pantry_id=pantry_id)
-## Approve/Deny Transaction
-## View Transaction History
-## (we probably also need something like get_pending_transactions)
+
+@router.post("/transactionRequest/{pantry_id}/{transaction_id}/{status}", tags=["Transaction Request"])
+def update_pending_transaction(pantry_id: int, transaction_id: int, status: str, db: Session = Depends(get_db)):
+    return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status=status)

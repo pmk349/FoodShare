@@ -33,10 +33,10 @@ def create_account(db: Session, account: schemas.AccountCreate):
     '''
     id = (db.query(func.max(models.Account.id)).one())[0] + 1
     hashed_password = utils.encrypt_password(account.password)
-    db_account = models.Account(id = id, 
-                                name = account.name, 
-                                email=account.email, 
-                                password=hashed_password, 
+    db_account = models.Account(id = id,
+                                name = account.name,
+                                email=account.email,
+                                password=hashed_password,
                                 account_type = account.account_type)
     db.add(db_account)
     db.commit()
@@ -90,8 +90,8 @@ def update_notifications(db: Session, pantry_id: int, shopper_id: int, notificat
     No return. Update notification in pantry_shopper. (README-UserStory-A2B)
     '''
 
-    entry = db.query(models.Pantry_Shopper).filter( and_(models.Pantry_Shopper.shopper_id==shopper_id,
-                                                models.Pantry_Shopper.pantry_id==pantry_id)).one_or_none() #TODO FIX
+    entry = db.query(models.Pantry_Shopper).filter(and_(models.Pantry_Shopper.shopper_id==shopper_id,
+                                                models.Pantry_Shopper.pantry_id==pantry_id)).one_or_none()
     if entry is None:
         return None
 
@@ -163,8 +163,9 @@ def add_item_to_pantry(db: Session, item_id: int, pantry_id: int):
 
 def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int):
     try:
-        db.query(models.Inventory).filter(and_(models.Inventory.item_id==item_id,
+        item = db.query(models.Inventory).filter(and_(models.Inventory.item_id==item_id,
                                                models.Inventory.pantry_id==pantry_id)).delete()
+        drop_inventoryItem(db=db, item_id=item.item_id)
         db.commit()
 
     except:
@@ -177,6 +178,30 @@ def get_pending_transactions(db: Session, pantry_id: int):
     return db.query(models.TransactionRequest).filter(and_(models.TransactionRequest.pantry_id == pantry_id,
                                                     models.TransactionRequest.request_status == 'pending')).all()
 
+
+def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int, status: str):
+
+    # update transaction
+    entry = db.query(models.TransactionRequest).filter(models.TransactionRequest.id == transaction_id).one_or_none()
+    if entry is None:
+        return None
+
+    setattr(entry, "request_status", status)
+    db.commit()
+
+    # if donate and approved, add item to inventory
+    if entry .request_action == 'donate' and status == 'approved':
+        add_item_to_pantry(db=db, pantry_id=pantry_id, item_id=entry.item_id)
+
+    # if donate and denied, remove item from inventoryItems
+    elif entry.request_action == 'donate' and status == 'denied':
+        drop_inventoryItem(db=db, item_id=entry.item_id)
+
+    # if receive and approved, subtract items from inventory
+    elif entry.request_action == 'receive' and status == 'approved':
+        uppdate_inventoryItem_quantity(db=db, pantry_id=pantry_id, item_id=entry.item_id, add=False, diff=entry.quantity)
+
+    # if receive and denied, do nothing
 
 #########################################################
 ################## TRANSACTIONS/MISC ####################
@@ -219,5 +244,27 @@ def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
     return db_inventoryItem
 
 
+def drop_inventoryItem(db: Session, item_id: int):
+    db.query(models.Inventory_Item).filter(models.Inventory_Item.id == item_id).delete()
+    db.commit()
+
+def uppdate_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, diff: int, add: bool):
+
+    entry = db.query(models.Inventory_Item).filter(models.Inventory_Item.id == item_id).one_or_none()
+    if entry is None:
+        return None
 
 
+    if add:
+        new_quantity = entry.quantity + diff
+    else:
+        new_quantity = entry.quantity - diff
+    if new_quantity < 0:
+        return None
+    elif new_quantity == 0:
+        remove_item_from_inventory(db=db, item_id=item_id, pantry_id=pantry_id)
+        drop_inventoryItem(db=db, item_id=item_id)
+        return
+
+    setattr(entry, "quantity", new_quantity)
+    db.commit()
