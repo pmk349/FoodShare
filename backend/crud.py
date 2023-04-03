@@ -102,23 +102,33 @@ def create_transactionRequest(db: Session, transactionRequest: schemas.Transacti
     '''
     (README-UserStory-A3/A4)
     '''
+
+    # get id
     if (db.query(func.max(models.TransactionRequest.id)).one())[0] != None:
         id = (db.query(func.max(models.TransactionRequest.id)).one())[0] + 1
     else:
         id = 1
+
+    # create transaction table entry
     db_transactionRequest = models.TransactionRequest(id = id,
                                                       shopper_id = transactionRequest.name,
                                                       pantry_id = transactionRequest.pantry_id,
                                                       item_id = transactionRequest.item_id,
-                                                      req_time = transactionRequest.req_time,
-                                                      req_status = transactionRequest.req_status,
-                                                      req_action = transactionRequest.req_action,
+                                                      request_time = transactionRequest.req_time,
+                                                      request_status = 'pending',
+                                                      request_action = transactionRequest.req_action,
                                                       quantity = transactionRequest.quantity,
                                                       summary = transactionRequest.summary,
                                                       anonymous = transactionRequest.anonymous)
     db.add(db_transactionRequest)
     db.commit()
     db.refresh(db_transactionRequest)
+
+    # if req_action was donate, ...
+    if transactionRequest.req_action == 'donate':
+        pass
+
+
     return db_transactionRequest
 
 #########################################################
@@ -153,12 +163,20 @@ def add_item_to_pantry(db: Session, item_id: int, pantry_id: int):
 
 def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int):
     try:
-        db.query(models.Inventory).filter(models.Inventory.item_id==item_id
-                                          and models.Inventory.pantry_id==pantry_id).delete() #TODO: COMPLETE
+        db.query(models.Inventory).filter(and_(models.Inventory.item_id==item_id,
+                                               models.Inventory.pantry_id==pantry_id)).delete()
         db.commit()
 
     except:
         return None
+
+def get_transaction_history(db: Session, pantry_id: int):
+    return db.query(models.TransactionRequest).filter(models.TransactionRequest.pantry_id == pantry_id).all()
+
+def get_pending_transactions(db: Session, pantry_id: int):
+    return db.query(models.TransactionRequest).filter(and_(models.TransactionRequest.pantry_id == pantry_id,
+                                                    models.TransactionRequest.request_status == 'pending')).all()
+
 
 #########################################################
 ################## TRANSACTIONS/MISC ####################

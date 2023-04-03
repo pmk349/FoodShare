@@ -54,9 +54,9 @@ class TransactionRequest(Base):
     shopper_id = Column(Integer)
     pantry_id = Column(Integer)
     item_id = Column(Integer)
-    req_time = Column(String)
-    req_status = Column(String) # Pending Approved Denied
-    req_action = Column(String) # Receive vs Donate
+    request_time = Column(String)
+    request_status = Column(String) # Pending Approved Denied
+    request_action = Column(String) # Receive vs Donate
     quantity = Column(Integer)
     summary = Column(String)
     anonymous = Column(Boolean)
