@@ -5,11 +5,11 @@
 </head>
 
 <body>
-    <main>
-        <input type="text" placeholder="Email address">
-        <input type="password" placeholder="Password">
-        <button type = "submit" name = "form">Login</button>
+    <form method="post" action="/login">
+        <input type="text" id = "email" name = "email" placeholder="Email address">
+        <input type="text" id = "password" name = "password" placeholder="Password">
+        <button class = "submit" type = "submit" value = "Submit">Login</button>
         <button class="btn-new">Create new Account</button>
-    </main>
+    </form>
 </body>
 </html>

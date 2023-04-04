@@ -1,6 +1,5 @@
 from typing import List
-
-from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -20,6 +19,12 @@ router = APIRouter()
 
 @router.get("/login", response_class=HTMLResponse)
 def login(request: Request):
+    return templates.TemplateResponse('login.html',{'request': request})
+
+@router.post("/login")
+def login(request: Request, email: str = Form(), password: str = Form()):
+    print(email)
+    print(password)
     return templates.TemplateResponse('login.html',{'request': request})
 
 @router.post("/account/", response_model=schemas.Account, tags=["account"])
