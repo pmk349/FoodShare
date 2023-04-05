@@ -3,7 +3,8 @@
 ## Goal:
     Recogfigure `bootstrap-5-admin-template` + some additional pages like
     `login` and `sign up` and change css pallet.
-      =>  Template Name    : DarkPan - Bootstrap 5 Admin Template
+    
+    =>  Template Name    : DarkPan - Bootstrap 5 Admin Template
 
     =>  Template Link    : https://htmlcodex.com/bootstrap-5-admin-template
 
@@ -13,7 +14,7 @@
 
     =>  Author Website   : https://htmlcodex.com
 
-     =>  About HTML Codex : HTML Codex is one of the top creators and publishers of Free HTML templates, HTML landing pages, HTML email templates and HTML snippets in the world. Read more at ( https://htmlcodex.com/about-us )
+    =>  About HTML Codex : HTML Codex is one of the top creators and publishers of Free HTML templates, HTML landing pages, HTML email templates and HTML snippets in the world. Read more at ( https://htmlcodex.com/about-us )
 
 
 ## 1. [bootstrap-5-admin-template](https://htmlcodex.com/demo/?item=2384)
