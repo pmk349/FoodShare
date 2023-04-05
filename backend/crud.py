@@ -236,8 +236,8 @@ def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
     db_inventoryItem = models.Inventory_Item(id = id,
                                              item_type = inventoryItem.item_type,
                                              quantity = inventoryItem.quantity,
-                                             expr_date = inventoryItem.experation_date,
-                                             description = inventoryItem.description)
+                                             expiration_date = inventoryItem.expiration_date,
+                                             summary = inventoryItem.summary)
     db.add(db_inventoryItem)
     db.commit()
     db.refresh(db_inventoryItem)

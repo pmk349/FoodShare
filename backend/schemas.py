@@ -72,7 +72,7 @@ class InventoryItemCreate(InventoryItemBase):
     summary: str
 
 class InventoryItem(InventoryItemBase):
-    #id: int
+    id: int
     quantity: int
     expiration_date: date
     summary: str
