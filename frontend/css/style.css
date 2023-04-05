@@ -7,19 +7,20 @@
 	background: #774181; 
 }
 
-.third-color { 
+.third-color { e4d5e3
 	background: #e6b2c6; 
 }
 
-.fourth-color { 
+.fourth-color { 2c132d e1d5e1
 	background: #f6e5e5; **********/
 
 
 :root {
     --primary: #ffffff;
-    --secondary: #3a1d3f;
+    --secondary: #774181;
     --light: #ffffff;
-    --dark: #3a1d3f;
+    --dark: #e1d5e1;
+    --darkest: #2c132d;
 }
 
 .back-to-top {
@@ -238,12 +239,18 @@
     transform: rotate(-180deg);
 }
 
+#top_navbar {
+    margin-top: -5vh;
+}
+#bot_navbar {
+    margin-bottom: 20px;
+}
+
 @media (max-width: 575.98px) {
     .content .navbar .navbar-nav .nav-link {
         margin-left: 15px;
     }
 }
-
 
 /*** Date Picker ***/
 .bootstrap-datetimepicker-widget.bottom {
