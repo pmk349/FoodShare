@@ -1,6 +1,7 @@
 from typing import List
-
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 import crud, models, schemas
@@ -10,8 +11,21 @@ from starlette.responses import RedirectResponse
 
 from database import get_db
 
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
+
 router = APIRouter()
 
+@router.get("/login", response_class=HTMLResponse)
+def login(request: Request):
+    return templates.TemplateResponse('login.html',{'request': request})
+
+@router.post("/login")
+def login(request: Request, email: str = Form(), password: str = Form()):
+    print(email)
+    print(password)
+    return templates.TemplateResponse('login.html',{'request': request})
 
 @router.post("/account/", response_model=schemas.Account, tags=["account"])
 def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):

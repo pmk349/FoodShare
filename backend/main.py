@@ -1,6 +1,8 @@
 from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 import crud, models, schemas
@@ -21,7 +23,7 @@ app.include_router(endpoints.transactionRequest.router)
 app.include_router(endpoints.pantryShopper.router)
 
 @app.get('/')
-async def main():
+def main(request: Request):
     return RedirectResponse(url="/docs/")
 
 if __name__ == "__main__":
