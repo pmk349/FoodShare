@@ -5,7 +5,7 @@
 ### Tab 1: Manager Dashboard
     1. Your Pantries
         inputs: managerID
-        outputs (TABLE): pantry name, addr, manager name
+        outputs (TABLE w/ BUTTONS): pantry name, addr, manager name, inspectButton
 
     2. Create Pantry
         inputs: name, street, city, state, zip
@@ -34,12 +34,22 @@
         inputs: item_id        
 
 ## Tab 3: Transactions
-    1. 
-    
-    
+    1. Transaction History
+        inputs: managerID   
+        output (TABLE): pantry name, shopper name, time, donate or receive, item_type, quantity, status
+       
+    2. Pending Transactions
+        inputs: managerID   
+        output (TABLE w/ BUTTONS): pantry name, shopper name, time, donate or receive, item_type, quantity, approveButton, denyButton
+       
 ## Tab 4: Pantry Broswer
+    1. All Pantries
+        ouput (TABLE w/ BUTTONS): : pantry name, addr, manager name, inspectButton, joinPantryButton
+        
+    2. Some way to select a pantry, display its inventory, make a transaction
 
 ## Tab 5: My Pantries
+    1. Same as 4, but not all pantries. 
 
 ## Initial Project Code
 
