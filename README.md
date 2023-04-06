@@ -1,7 +1,5 @@
 # FoodShare
 
-# FoodShare
-
 # Frontend-Backend Integration
 
 ### Tab 1: Manager Dashboard
