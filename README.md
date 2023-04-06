@@ -35,6 +35,11 @@
 
 ## Tab 3: Transactions
     1. 
+    
+    
+## Tab 4: Pantry Broswer
+
+## Tab 5: My Pantries
 
 ## Initial Project Code
 
