@@ -12,20 +12,29 @@ from starlette.responses import RedirectResponse
 from database import get_db
 
 from pathlib import Path
-BASE_DIR = Path(__file__).resolve().parent.parent
-templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+templates = Jinja2Templates(directory=str(Path(BASE_DIR,'frontend')))
 
 router = APIRouter()
 
-@router.get("/login", response_class=HTMLResponse)
-def login(request: Request):
-    return templates.TemplateResponse('login.html',{'request': request})
+@router.get("/signin", response_class=HTMLResponse)
+def signin(request: Request):
+    return templates.TemplateResponse('signin.html',{'request': request})
 
-@router.post("/login")
-def login(request: Request, email: str = Form(), password: str = Form()):
-    print(email)
-    print(password)
-    return templates.TemplateResponse('login.html',{'request': request})
+@router.post("/signin")
+def signin(request: Request, db: Session = Depends(get_db),  email: str = Form(), password: str = Form()):
+    db_account = crud.get_account_by_email(db, email = email)
+    if db_account == None:
+        raise HTTPException(status_code=400, detail="No account with that email exists")
+    else:
+        print(db_account.password)
+        print(email)
+        print(password)
+    return templates.TemplateResponse('signin.html',{'request': request})
+
+@router.get("/signup", response_class=HTMLResponse)
+def signup(request: Request):
+    return templates.TemplateResponse('signup.html', {'request': request})
 
 @router.post("/account/", response_model=schemas.Account, tags=["account"])
 def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):
