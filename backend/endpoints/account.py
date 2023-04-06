@@ -33,7 +33,7 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
         print(utils.encrypt_password(password))
         print(email)
         print(password)
-    return templates.TemplateResponse('manager.html',{'request': request})
+    return templates.TemplateResponse('manager-dashboard.html',{'request': request})
 
 @router.get("/signup", response_class=HTMLResponse)
 def signup(request: Request):
