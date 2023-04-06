@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 import crud, models, schemas
+from utils import utils
 from database import SessionLocal, engine
 
 from starlette.responses import RedirectResponse
@@ -12,8 +13,10 @@ from starlette.responses import RedirectResponse
 from database import get_db
 
 from pathlib import Path
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-templates = Jinja2Templates(directory=str(Path(BASE_DIR,'frontend')))
+templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
+
 
 router = APIRouter()
 
@@ -27,10 +30,10 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
     if db_account == None:
         raise HTTPException(status_code=400, detail="No account with that email exists")
     else:
-        print(db_account.password)
+        print(utils.encrypt_password(password))
         print(email)
         print(password)
-    return templates.TemplateResponse('signin.html',{'request': request})
+    return templates.TemplateResponse('manager.html',{'request': request})
 
 @router.get("/signup", response_class=HTMLResponse)
 def signup(request: Request):
