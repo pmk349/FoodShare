@@ -47,6 +47,19 @@
         ouput (TABLE w/ BUTTONS): : pantry name, addr, manager name, inspectButton, joinPantryButton
         
     2. Some way to select a pantry, display its inventory, make a transaction
+        NOTE: transaction logic differs depending on RECEIVE or DONATE
+
+        Displaying the Inventory of a Pantry:
+            inputs: managerID   
+            output (TABLE): pantry name, item type, quantity, expration date, summary, image 
+
+        Make a Transaction-Receive:
+            inputs: shopper id , pantry id , item id (ideally these 3 are gotten via some user selection, i.e. they've selected this item somehow),
+                    quantity, summary, anonymousToggleOption
+  
+        Make a Transaction-Donation:
+            inputs: shopper id, pantry id, item id (the user has to create this item, same way Managers can create items),
+                    quantity, summary, anonymousToggleOption
 
 ## Tab 5: My Pantries
     1. Same as 4, but not all pantries. 
