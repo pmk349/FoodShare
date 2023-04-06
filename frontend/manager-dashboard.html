@@ -36,7 +36,7 @@ s
 <body>
     <div class="container-fluid position-relative d-flex p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner" class="show bg-grey position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -45,22 +45,22 @@ s
 
 
         <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3 bg-tertiary">
-            <nav class="navbar bg-tertiary navbar-darkest">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="color:#ffffff"><i class="fa-solid fa-utensils me-2"></i>Food Share</h3>
+        <div class="sidebar pe-4 pb-3 bg-white">
+            <nav class="navbar bg-white navbar-dark">
+                <a href="manager-dashboard.html" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-darkpurple"><i class="fa-solid fa-utensils me-2"></i>Food Share</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
                         <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                         <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
                     </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">John Doe</h6>
+                    <div class="ms-3 text-light">
+                        <h6 class="mb-0 text-dark">John Doe</h6>
                         <span>Manager</span>
                     </div>
                 </div>
-                <div class="navbar-nav navbar-darkest w-100">
+                <div class="navbar-nav navbar-darkest w-100 text-light">
                     <a href="manager-dashboard.html" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Pantry Dash</a>
                     <a href="#" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Inventories</a>
                 </div>
@@ -72,9 +72,9 @@ s
         <!-- Content Start -->
         <div class="content">
             <!-- Navbar Start -->
-            <nav id ="top_navbar" class="navbar navbar-expand bg-tertiary navbar-dark sticky-top px-4 py-0 ">
+            <nav id ="top_navbar" class="navbar navbar-expand bg-white navbar-dark sticky-top px-4 py-0 ">
                 <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                    <h2 class="text-dark mb-0"><i class="fa fa-user-edit"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
@@ -86,9 +86,9 @@ s
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
+                            <span class="d-none d-lg-inline-flex text-offblack">Message</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-tertiary border-0 rounded-0 rounded-bottom m-0">
+                        <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <div class="d-flex align-items-center">
                                     <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
@@ -125,9 +125,9 @@ s
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notifications</span>
+                            <span class="d-none d-lg-inline-flex text-offblack">Notifications</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-tertiary border-0 rounded-0 rounded-bottom m-0">
+                        <div class="dropdown-menu dropdown-menu-end bg-white  border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">
                                 <h6 class="fw-normal mb-0">Profile updated</h6>
                                 <small>15 minutes ago</small>
@@ -149,9 +149,9 @@ s
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <span class="d-none d-lg-inline-flex text-offblack">John Doe</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-tertiary border-0 rounded-0 rounded-bottom m-0">
+                        <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">Settings</a>
                             <a href="signin.html" class="dropdown-item">Log Out</a>
                         </div>
@@ -159,18 +159,52 @@ s
                 </div>
             </nav>
             <!-- Navbar End -->
+            
+            <!-- Fun Info Bars -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-4">
+                        <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
+                            <div class="ms-3">
+                                <p class="mb-2 text-offblack">Pantries Managed</p>
+                                <h2 class="mb-0 text-light">5</h2>
+                            </div>
+                            <i class="fa fa-house-user fa-4x text-offblack"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
+                            <div class="ms-3">
+                                <p class="mb-2 text-offblack">Students Helped</p>
+                                <h2 class="mb-0 text-light">7</h2>
+                            </div>
+                            <i class="fa fa-face-laugh-beam fa-4x text-green"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
+                            <div class="ms-3">
+                                <p class="mb-2 text-offblack">Overall Rating</p>
+                                <h2 class="mb-0 text-light">10</h2>
+                            </div>
+                            <i class="fa fa-star fa-4x text-yellow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fun Info Bar End -->
 
             <!-- Recent Sales Start -->
             <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary text-center rounded p-4">
+                <div class="bg-white text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h3 class="mb-0">Your Pantries</h3>
+                        <h3 class="mb-0 text-offblack">Your Pantries</h3>
                         <a href="">Show All</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
                             <thead>
-                                <tr class="text-white">
+                                <tr class="bg-grey text-offblack">
                                     <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                     <th scope="col">Pantry Name</th>
                                     <th scope="col">Address</th>
@@ -225,8 +259,8 @@ s
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h3 class="mb-4">Create a Pantry</h3>
+                        <div class="bg-white rounded h-100 p-4 text-light">
+                            <h3 class="mb-4 text-offblack">Create a Pantry</h3>
                             <form>
                                 <div class="mb-3">
                                     <label for="pantryName" class="form-label">Pantry Name</label>
@@ -253,8 +287,8 @@ s
                         </div>
                     </div>
                     <div class="col-sm-12 col-xl-6">
-                        <div class="bg-secondary rounded h-100 p-4">
-                            <h3 class="mb-4">Update Pantry</h3>
+                        <div class="bg-white rounded h-100 p-4">
+                            <h3 class="mb-4 text-offblack">Update Pantry</h3>
                             <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
                                 <option selected>Pantry Name</option>
                                 <option value="1">Pantry One</option>
@@ -272,12 +306,12 @@ s
 
             <!-- Footer Start -->
             <div id="bot_navbar" class="container-fluid pt-5 px-4">
-                <div class="bg-secondary rounded-top p-4">
+                <div class="bg-white rounded-top p-4">
                     <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                        <div class="col-12 col-sm-6 text-center text-sm-start text-light">
                             &copy; <a href="manager-dashboard.html">Food Share</a>, All Right Reserved. 
                         </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                        <div class="col-12 col-sm-6 text-center text-sm-end text-light">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
                             Designed By <a href="https://htmlcodex.com" >HTML Codex</a>
                         </div>

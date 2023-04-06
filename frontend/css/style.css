@@ -16,11 +16,14 @@
 
 
 :root {
-    --primary: #ffffff;
+    --primary: #000000;
     --secondary: #774181;
     --light: #ffffff;
-    --dark: #e1d5e1;
+    --black: #000000;
+    --dark: #F5F7FB;
     --darkest: #2c132d;
+    --grey: #F5F7FB;
+    --offBlack: #333943;
 }
 
 .back-to-top {
@@ -138,7 +141,7 @@
 /*** Navbar ***/
 .sidebar .navbar .navbar-nav .nav-link {
     padding: 7px 20px;
-    color: var(--light);
+    color: var(--black);
     font-weight: 500;
     border-left: 3px solid var(--secondary);
     border-radius: 0 30px 30px 0;
