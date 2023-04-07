@@ -30,10 +30,13 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
     if db_account == None:
         raise HTTPException(status_code=400, detail="No account with that email exists")
     else:
-        print(utils.encrypt_password(password))
-        print(email)
-        print(password)
-    return templates.TemplateResponse('manager-dashboard.html',{'request': request})
+        if db_account.password==utils.encrypt_password(password):
+            if db_account.account_type=="shopper":
+                return True
+            else: 
+               return templates.TemplateResponse('manager-dashboard.html',{'request': request}) 
+        else:
+            raise HTTPException(status_code=400, detail="Incorrect Password")
 
 @router.get("/signup", response_class=HTMLResponse)
 def signup(request: Request):
