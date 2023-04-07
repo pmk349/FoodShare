@@ -31,7 +31,11 @@ def create_account(db: Session, account: schemas.AccountCreate):
 
     Email is unique in the DDL.
     '''
-    id = (db.query(func.max(models.Account.id)).one())[0] + 1
+    if (db.query(func.max(models.Account.id)).one())[0] != None:
+        id = (db.query(func.max(models.Account.id)).one())[0] + 1
+    else:
+        id = 1
+
     hashed_password = utils.encrypt_password(account.password)
     db_account = models.Account(id = id,
                                 name = account.name,
