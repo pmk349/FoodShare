@@ -48,6 +48,18 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
 def signup(request: Request):
     return templates.TemplateResponse('signup.html', {'request': request})
 
+@router.post("/signup", response_model = schemas.Account)
+def signup(request: Request, db: Session = Depends(get_db), name: str = Form(), email: str = Form(), password: str = Form(), account_type: str = Form()):
+    db_account = crud.get_account_by_email(db, email=email)
+    if db_account:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    crud.create_account(db=db, account=schemas.AccountCreate(name = name, email = email, password=password, account_type=account_type))
+    if account_type == "shopper":
+        return True
+    else:
+        return templates.TemplateResponse('manager-dashboard.html',{'request': request})
+
+
 @router.post("/account/", response_model=schemas.Account, tags=["account"])
 def create_account(account: schemas.AccountCreate, db: Session = Depends(get_db)):
     # check that email does not exist already
