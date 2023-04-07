@@ -24,7 +24,7 @@ router = APIRouter()
 def signin(request: Request):
     return templates.TemplateResponse('signin.html',{'request': request})
 
-@router.post("/signin")
+@router.post("/signin", response_class=HTMLResponse)
 def signin(request: Request, db: Session = Depends(get_db),  email: str = Form(), password: str = Form()):
     db_account = crud.get_account_by_email(db, email = email)
     if db_account == None:
@@ -36,7 +36,13 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
             else: 
                return templates.TemplateResponse('manager-dashboard.html',{'request': request}) 
         else:
-            raise HTTPException(status_code=400, detail="Incorrect Password")
+            return '''<dialog open>
+                            <p>Incorrect Password</p>
+                            <form action = "/signin" method="get">
+                                <button> OK </button>
+                            </form>
+                        </dialog>
+            '''
 
 @router.get("/signup", response_class=HTMLResponse)
 def signup(request: Request):
