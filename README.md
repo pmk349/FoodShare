@@ -39,7 +39,7 @@
         inputs: managerID   
         output (TABLE): pantry name, shopper name, time, donate or receive, item_type, quantity, status
        
-    2. Pending Transactions
+    2. Pending Transactions (Approve, Deny buttons)
         inputs: managerID   
         output (TABLE w/ BUTTONS): pantry name, shopper name, time, donate or receive, item_type, quantity, approveButton, denyButton
        
