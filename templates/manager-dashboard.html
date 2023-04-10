@@ -261,26 +261,26 @@ s
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-white rounded h-100 p-4 text-light">
                             <h3 class="mb-4 text-offblack">Create a Pantry</h3>
-                            <form>
+                            <form method = "post" action = "/create_pantry">
                                 <div class="mb-3">
                                     <label for="pantryName" class="form-label">Pantry Name</label>
-                                    <input type="text" class="form-control" id="pantryName">
+                                    <input type="text" class="form-control" id="pantryName" name = "name">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Street</label>
-                                    <input type="address" class="form-control" id="exampleInputPassword1">
+                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "street">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">City</label>
-                                    <input type="address" class="form-control" id="exampleInputPassword1">
+                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "city">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">State</label>
-                                    <input type="address" class="form-control" id="exampleInputPassword1">
+                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "state">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Zip</label>
-                                    <input type="zipcode" class="form-control" id="exampleInputPassword1">
+                                    <input type="zipcode" class="form-control" id="exampleInputPassword1" name = "zip">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>

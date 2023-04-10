@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 import crud, models, schemas, session
+import main
 from utils import utils
 from database import SessionLocal, engine
 
@@ -29,12 +30,13 @@ def signin(request: Request):
 def signin(request: Request, db: Session = Depends(get_db),  email: str = Form(), password: str = Form()):
     ''' Only working on Managers. '''
     db_account = crud.get_account_by_email(db, email = email)
+
     if db_account == None:
         raise HTTPException(status_code=400, detail="No account with that email exists")
     else:
         if db_account.password==utils.encrypt_password(password):
             if db_account.account_type=="shopper":
-                return True # templates.TemplateResponse(...)
+                return templates.TemplateResponse('signin.html',{'request': request})
             else:
                 session.login(id=db_account.id, type='manager')
                 return templates.TemplateResponse('manager-dashboard.html',{'request': request})

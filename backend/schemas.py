@@ -36,7 +36,7 @@ class PantryCreate(PantryBase):
 
 
 class Pantry(PantryBase):
-    name: str
+    manager_id: int
 
     class Config:
         orm_mode = True

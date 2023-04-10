@@ -3,6 +3,7 @@ from sqlalchemy import func, and_
 from utils import utils
 
 import models, schemas
+import main
 
 def get_account_by_id(db: Session, account_id: int):
     return db.query(models.Account).filter(models.Account.id == account_id).first()
@@ -151,7 +152,7 @@ def create_pantry(db: Session, pantry: schemas.PantryCreate):
         id = 1
     db_pantry = models.Pantry(id = id,
                               name = pantry.name,
-                              manager_id = None,
+                              manager_id = main.SESSION_DATA['id'],
                               address = pantry.address)
     db.add(db_pantry)
     db.commit()

@@ -1,16 +1,32 @@
 from typing import List
-
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
+import crud, models, schemas, session
+from utils import utils
 from database import SessionLocal, engine
 
 from starlette.responses import RedirectResponse
 
 from database import get_db
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
+
 router = APIRouter()
+
+@router.post("/create_pantry", response_class=HTMLResponse)
+def create_pantry(request: Request, db: Session = Depends(get_db),  name: str = Form(), street: str = Form(), city: str = Form(), state: str = Form(), zip: str = Form()):
+    address = street + " " + city + " " + state + " " + zip
+    db_pantry = crud.get_pantry_by_address(db, address=address)
+    if db_pantry:
+        raise HTTPException(status_code=400, detail="Pantry already exists")
+    crud.create_pantry(db=db, pantry=schemas.PantryCreate(name = name, address = address))
+    return templates.TemplateResponse('manager-dashboard.html',{'request': request})
 
 @router.post("/pantry/", response_model=schemas.Pantry, tags=["Pantry"])
 def create_pantry(pantry: schemas.PantryCreate, db: Session = Depends(get_db)):
