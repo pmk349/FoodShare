@@ -31,14 +31,15 @@
         inputs: item type, quantity, expration date, summary, image
     
     3. Remove Item
-        inputs: item_id        
+        inputs: item_id
+        * Need a way to select pantry and item from pantry
 
 ## Tab 3: Transactions
     1. Transaction History
         inputs: managerID   
         output (TABLE): pantry name, shopper name, time, donate or receive, item_type, quantity, status
        
-    2. Pending Transactions
+    2. Pending Transactions (Approve, Deny buttons)
         inputs: managerID   
         output (TABLE w/ BUTTONS): pantry name, shopper name, time, donate or receive, item_type, quantity, approveButton, denyButton
        

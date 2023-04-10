@@ -253,7 +253,7 @@ def drop_inventoryItem(db: Session, item_id: int):
     db.query(models.Inventory_Item).filter(models.Inventory_Item.id == item_id).delete()
     db.commit()
 
-def uppdate_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, diff: int, add: bool):
+def update_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, diff: int, add: bool):
 
     entry = db.query(models.Inventory_Item).filter(models.Inventory_Item.id == item_id).one_or_none()
     if entry is None:
@@ -273,3 +273,19 @@ def uppdate_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, di
 
     setattr(entry, "quantity", new_quantity)
     db.commit()
+
+
+def get_pantries_managed(db: Session, acc_id: int) -> int:
+    return len(db.query(models.Pantry).filter(models.Pantry.manager_id == acc_id).all())
+def get_students_helped(db: Session, acc_id: int) -> int:
+    managed_pantries = db.query(models.Pantry).filter(models.Pantry.manager_id == acc_id).all()
+    num_students = 0
+    for p in managed_pantries:
+        num_students += len(db.query(models.Pantry_Shopper).filter(models.Pantry_Shopper.pantry_id == p.id).all())
+    return num_students
+def get_total_transactions(db: Session, acc_id: int) -> int:
+    managed_pantries = db.query(models.Pantry).filter(models.Pantry.manager_id == acc_id).all()
+    num_transactions = 0
+    for p in managed_pantries:
+        num_transactions += len(db.query(models.TransactionRequest).filter(models.TransactionRequest.pantry_id == p.id).all())
+    return num_transactions
