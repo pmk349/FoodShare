@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
+import crud, models, schemas, session
 from utils import utils
 from database import SessionLocal, engine
 
@@ -20,21 +20,24 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
 
 router = APIRouter()
 
+
 @router.get("/signin", response_class=HTMLResponse)
 def signin(request: Request):
     return templates.TemplateResponse('signin.html',{'request': request})
 
 @router.post("/signin", response_class=HTMLResponse)
 def signin(request: Request, db: Session = Depends(get_db),  email: str = Form(), password: str = Form()):
+    ''' Only working on Managers. '''
     db_account = crud.get_account_by_email(db, email = email)
     if db_account == None:
         raise HTTPException(status_code=400, detail="No account with that email exists")
     else:
         if db_account.password==utils.encrypt_password(password):
             if db_account.account_type=="shopper":
-                return True
-            else: 
-               return templates.TemplateResponse('manager-dashboard.html',{'request': request}) 
+                return True # templates.TemplateResponse(...)
+            else:
+                session.login(id=db_account.id, type='manager')
+                return templates.TemplateResponse('manager-dashboard.html',{'request': request})
         else:
             return '''<dialog open>
                             <p>Incorrect Password</p>
@@ -57,6 +60,7 @@ def signup(request: Request, db: Session = Depends(get_db), name: str = Form(), 
     if account_type == "shopper":
         return True
     else:
+        session.login(id=db_account.id, type='manager')
         return templates.TemplateResponse('manager-dashboard.html',{'request': request})
 
 

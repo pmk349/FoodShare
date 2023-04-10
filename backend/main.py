@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
+import crud, models, schemas, session
 
 import endpoints
 
@@ -32,6 +32,7 @@ app.include_router(endpoints.pantryShopper.router)
 
 @app.get('/')
 def main(request: Request):
+    session.init_session()
     return RedirectResponse(url="/signin/")
 
 if __name__ == "__main__":
