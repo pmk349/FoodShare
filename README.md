@@ -31,7 +31,8 @@
         inputs: item type, quantity, expration date, summary, image
     
     3. Remove Item
-        inputs: item_id        
+        inputs: item_id
+        * Need a way to select pantry and item from pantry
 
 ## Tab 3: Transactions
     1. Transaction History
