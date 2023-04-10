@@ -30,6 +30,9 @@ app.include_router(endpoints.inventoryItem.router)
 app.include_router(endpoints.transactionRequest.router)
 app.include_router(endpoints.pantryShopper.router)
 
+global SESSION_DATA
+SESSION_DATA = dict()
+
 @app.get('/')
 def main(request: Request):
     session.init_session()

@@ -1,9 +1,8 @@
-from pydantic import BaseModel
+import main
 
-global session_data
 
 def init_session():
-    session_data = {
+    main.SESSION_DATA = {
         "id": None,  # account id, type
         "type": None,  # 0 = shopper, 1 = manager
         "logged_in": False
@@ -12,17 +11,16 @@ def init_session():
 def verify_session(acc_type: str) -> bool:
     ''' verify a loged in user is of
         the correct account type '''
-    if session_data['logged_in'] != True:
+    if main.SESSION_DATA['logged_in'] != True:
         return False
-    if session_data['type'] != acc_type:
+    if main.SESSION_DATA['type'] != acc_type:
         return False
     return True
 
 def wipe_session():
     init_session()
 
-
 def login(id: int, type: str):
-    session_data["id"] = id
-    session_data["type"] = type
-    session_data["logged_in"] = True
+    main.SESSION_DATA["id"] = id
+    main.SESSION_DATA["type"] = type
+    main.SESSION_DATA["logged_in"] = True
