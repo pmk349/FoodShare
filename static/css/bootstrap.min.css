@@ -2437,7 +2437,7 @@ textarea.form-control-lg {
 }
 
 .form-select:focus {
-    border-color: #f58b8b;
+    border-color: #2c132d;
     outline: 0;
     box-shadow: 0 0 0 .25rem rgba(235, 22, 22, 0.25)
 }

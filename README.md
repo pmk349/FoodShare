@@ -2,25 +2,28 @@
 
 # Frontend-Backend Integration
 
+# Manager only 
 ### Tab 1: Manager Dashboard
-    1. Your Pantries
-        inputs: managerID
-        outputs (TABLE w/ BUTTONS): pantry name, addr, manager name, inspectButton
-
-    2. Create Pantry
-        inputs: name, street, city, state, zip
-        
-    3. Pantries Mangers
+    1. Pantries Managed
         inputs: managerID
         outputs (INT): # of pantries managed
 
-    4. Number of Students Helped
+    2. Number of Students Helped
         inputs: managerID
         outputs (INT): shopper count, for all pantries managed by managerID
 
-    5. Number of Total Transactions
+    3. Number of Total Transactions
         inputs: managerID
         outputs (INT): transaction count, for all pantries managed by managerID
+
+    4. Your Pantries
+        inputs: managerID
+        outputs (TABLE w/ BUTTONS): pantry name, addr, manager name, inspectButton
+
+    5. Create Pantry
+        inputs: name, street, city, state, zip
+        
+
 
 ## Tab 2: Inventories
     1. Inventory Display
@@ -34,7 +37,7 @@
         inputs: item_id
         * Need a way to select pantry and item from pantry
 
-## Tab 3: Transactions
+## Tab 3: Transaction History and Approval
     1. Transaction History
         inputs: managerID   
         output (TABLE): pantry name, shopper name, time, donate or receive, item_type, quantity, status
@@ -43,10 +46,13 @@
         inputs: managerID   
         output (TABLE w/ BUTTONS): pantry name, shopper name, time, donate or receive, item_type, quantity, approveButton, denyButton
        
+
+# Shopper Dashboard (manager view too)
 ## Tab 4: Pantry Broswer
     1. All Pantries
         ouput (TABLE w/ BUTTONS): : pantry name, addr, manager name, inspectButton, joinPantryButton
-        
+
+## Tab 5: Transaction Donate/ Recieve
     2. Some way to select a pantry, display its inventory, make a transaction
         NOTE: transaction logic differs depending on RECEIVE or DONATE
 
@@ -62,8 +68,8 @@
             inputs: shopper id, pantry id, item id (the user has to create this item, same way Managers can create items),
                     quantity, summary, anonymousToggleOption
 
-## Tab 5: My Pantries
-    1. Same as 4, but not all pantries. 
+## Tab 6: My Pantries
+    1. Same as 4, but not all pantries.
 
 ## Initial Project Code
 
