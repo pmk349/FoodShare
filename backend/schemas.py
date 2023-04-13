@@ -109,14 +109,14 @@ class TransactionRequestBase(BaseModel):
 
 class TransactionRequestCreate(TransactionRequestBase):
     req_time: str
-    req_status: str
     req_action: str
-    quantity: str
+    quantity: int
     summary: str
     anonymous: bool
 
 class TransactionRequest(TransactionRequestBase):
     id: int
+    req_status: str
 
     class Config:
         orm_mode = True

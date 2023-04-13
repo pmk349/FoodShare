@@ -38,8 +38,13 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
             if db_account.account_type=="shopper":
                 return templates.TemplateResponse('signin.html',{'request': request})
             else:
-                session.login(id=db_account.id, type='manager')
-                return templates.TemplateResponse('manager-dashboard.html',{'request': request})
+                session.login(db, id=db_account.id, type='manager')
+                
+                return templates.TemplateResponse('manager-dashboard.html',{'request': request, 
+                                                                            'pantries_managed' : main.SESSION_DATA["pantries_managed"],
+                                                                            'students_helped' : main.SESSION_DATA["students_helped"],
+                                                                            'total_transactions': main.SESSION_DATA["total_transactions"]}
+                                                  )
         else:
             return '''<dialog open>
                             <p>Incorrect Password</p>
@@ -62,7 +67,7 @@ def signup(request: Request, db: Session = Depends(get_db), name: str = Form(), 
     if account_type == "shopper":
         return True
     else:
-        session.login(id=db_account.id, type='manager')
+        session.login(db, id=db_account.id, type='manager')
         return templates.TemplateResponse('manager-dashboard.html',{'request': request})
 
 

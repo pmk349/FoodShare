@@ -113,14 +113,15 @@ def create_transactionRequest(db: Session, transactionRequest: schemas.Transacti
         id = (db.query(func.max(models.TransactionRequest.id)).one())[0] + 1
     else:
         id = 1
-
+    default_status = "pending"
     # create transaction table entry
+    print("break")
     db_transactionRequest = models.TransactionRequest(id = id,
-                                                      shopper_id = transactionRequest.name,
+                                                      shopper_id = transactionRequest.shopper_id,
                                                       pantry_id = transactionRequest.pantry_id,
                                                       item_id = transactionRequest.item_id,
                                                       request_time = transactionRequest.req_time,
-                                                      request_status = 'pending',
+                                                      request_status = default_status,
                                                       request_action = transactionRequest.req_action,
                                                       quantity = transactionRequest.quantity,
                                                       summary = transactionRequest.summary,
@@ -130,10 +131,8 @@ def create_transactionRequest(db: Session, transactionRequest: schemas.Transacti
     db.refresh(db_transactionRequest)
 
     # if req_action was donate, ...
-    if transactionRequest.req_action == 'donate':
-        pass
-
-
+    # if transactionRequest.req_action == 'donate':
+    #     pass
     return db_transactionRequest
 
 #########################################################
@@ -204,7 +203,7 @@ def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int,
 
     # if receive and approved, subtract items from inventory
     elif entry.request_action == 'receive' and status == 'approved':
-        uppdate_inventoryItem_quantity(db=db, pantry_id=pantry_id, item_id=entry.item_id, add=False, diff=entry.quantity)
+        update_inventoryItem_quantity(db=db, pantry_id=pantry_id, item_id=entry.item_id, add=False, diff=entry.quantity)
 
     # if receive and denied, do nothing
 
@@ -275,17 +274,25 @@ def update_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, dif
     db.commit()
 
 
-def get_pantries_managed(db: Session, acc_id: int) -> int:
-    return len(db.query(models.Pantry).filter(models.Pantry.manager_id == acc_id).all())
-def get_students_helped(db: Session, acc_id: int) -> int:
-    managed_pantries = db.query(models.Pantry).filter(models.Pantry.manager_id == acc_id).all()
+def get_pantries_managed(db: Session, id: int) -> int:
+    return len(db.query(models.Pantry).filter(models.Pantry.manager_id == id).all())
+
+def get_students_helped(db: Session, id: int) -> int:
+    managed_pantries = db.query(models.Pantry).filter(models.Pantry.manager_id == id).all()
     num_students = 0
     for p in managed_pantries:
         num_students += len(db.query(models.Pantry_Shopper).filter(models.Pantry_Shopper.pantry_id == p.id).all())
     return num_students
-def get_total_transactions(db: Session, acc_id: int) -> int:
-    managed_pantries = db.query(models.Pantry).filter(models.Pantry.manager_id == acc_id).all()
+def get_total_transactions(db: Session, id: int) -> int:
+    managed_pantries = db.query(models.Pantry).filter(models.Pantry.manager_id == id).all()
     num_transactions = 0
     for p in managed_pantries:
-        num_transactions += len(db.query(models.TransactionRequest).filter(models.TransactionRequest.pantry_id == p.id).all())
+        try:
+            temp = db.query(models.TransactionRequest).filter(models.TransactionRequest.pantry_id == p.id).all()
+        except:
+            temp = []
+        if temp != []:
+            num_transactions += len(temp)
+        else:
+            continue
     return num_transactions
