@@ -216,42 +216,14 @@ s
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="text-primary" >
-                                    <td>Pantry 1</td>
-                                    <td>370 Jay Street</td>
-                                    <td>Jhon Doe</td>
-                                    <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
-                                </tr>
-                                <tr class="text-primary" >
-                                    <td>Pantry 1</td>
-                                    <td>370 Jay Street</td>
-                                    <td>Jhon Doe</td>
-                                    <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
-                                </tr>
-                                <tr class="text-primary" >
-                                    <td>Pantry 1</td>
-                                    <td>370 Jay Street</td>
-                                    <td>Jhon Doe</td>
-                                    <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
-                                </tr>
-                                <tr class="text-primary" >
-                                    <td>Pantry 1</td>
-                                    <td>370 Jay Street</td>
-                                    <td>Jhon Doe</td>
-                                    <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
-                                </tr>
-                                <tr class="text-primary" >
-                                    <td>Pantry 1</td>
-                                    <td>370 Jay Street</td>
-                                    <td>Jhon Doe</td>
-                                    <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
-                                </tr>
-                                <tr class="text-primary" >
-                                    <td>Pantry 1</td>
-                                    <td>370 Jay Street</td>
-                                    <td>Jhon Doe</td>
-                                    <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
-                                </tr>
+                                {% for row in data %}
+                                    <tr class="text-primary" >
+                                        <td>{{row[0]}}</td>
+                                        <td>{{row[1]}}</td>
+                                        <td>{{row[2]}}</td>
+                                        <td><a class="btn btn-sm btn-primary" href="manager-inventories.html">Details</a></td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

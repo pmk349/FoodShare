@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 import crud, models, schemas, session
+import main
 from utils import utils
 from database import SessionLocal, engine
 
@@ -19,7 +20,7 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
 
 router = APIRouter()
 
-@router.post("/create_pantry", response_class=HTMLResponse)
+@router.post("/create_pantry", response_class=HTMLResponse, tags=["Pantry"])
 def create_pantry(request: Request, db: Session = Depends(get_db),  name: str = Form(), street: str = Form(), city: str = Form(), state: str = Form(), zip: str = Form()):
     address = street + " " + city + " " + state + " " + zip
     db_pantry = crud.get_pantry_by_address(db, address=address)
@@ -27,6 +28,13 @@ def create_pantry(request: Request, db: Session = Depends(get_db),  name: str = 
         raise HTTPException(status_code=400, detail="Pantry already exists")
     crud.create_pantry(db=db, pantry=schemas.PantryCreate(name = name, address = address))
     return templates.TemplateResponse('manager-dashboard.html',{'request': request})
+
+@router.get("/your_pantries", response_model=List[schemas.Pantry], tags=["Pantry"])
+def your_pantries(db: Session = Depends(get_db)):
+    # id = main.SESSION_DATA['id']
+    # print(id)
+    pantries = crud.get_pantries_by_managerID(db, 10)
+    return pantries
 
 @router.post("/pantry/", response_model=schemas.Pantry, tags=["Pantry"])
 def create_pantry(pantry: schemas.PantryCreate, db: Session = Depends(get_db)):

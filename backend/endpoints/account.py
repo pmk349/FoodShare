@@ -6,8 +6,12 @@ from sqlalchemy.orm import Session
 
 import crud, models, schemas, session
 import main
+
+from .pantry import your_pantries
+
 from utils import utils
 from database import SessionLocal, engine
+
 
 from starlette.responses import RedirectResponse
 
@@ -22,11 +26,11 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
 router = APIRouter()
 
 
-@router.get("/signin", response_class=HTMLResponse)
+@router.get("/signin", response_class=HTMLResponse, tags=["account"])
 def signin(request: Request):
     return templates.TemplateResponse('signin.html',{'request': request})
 
-@router.post("/signin", response_class=HTMLResponse)
+@router.post("/signin", response_class=HTMLResponse, tags=["account"])
 def signin(request: Request, db: Session = Depends(get_db),  email: str = Form(), password: str = Form()):
     ''' Only working on Managers. '''
     db_account = crud.get_account_by_email(db, email = email)
@@ -39,11 +43,18 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
                 return templates.TemplateResponse('signin.html',{'request': request})
             else:
                 session.login(db, id=db_account.id, type='manager')
-                
+                data = []
+                account_id = main.SESSION_DATA["id"]
+                db_account = crud.get_account_by_id(db, account_id=account_id)
+                pantries = your_pantries(db)
+
+                for i in pantries:
+                    data.append([i.name,i.address, db_account.name])
                 return templates.TemplateResponse('manager-dashboard.html',{'request': request, 
                                                                             'pantries_managed' : main.SESSION_DATA["pantries_managed"],
                                                                             'students_helped' : main.SESSION_DATA["students_helped"],
-                                                                            'total_transactions': main.SESSION_DATA["total_transactions"]}
+                                                                            'total_transactions': main.SESSION_DATA["total_transactions"],
+                                                                            'data': data}
                                                   )
         else:
             return '''<dialog open>
@@ -54,11 +65,11 @@ def signin(request: Request, db: Session = Depends(get_db),  email: str = Form()
                         </dialog>
             '''
 
-@router.get("/signup", response_class=HTMLResponse)
+@router.get("/signup", response_class=HTMLResponse, tags=["account"])
 def signup(request: Request):
     return templates.TemplateResponse('signup.html', {'request': request})
 
-@router.post("/signup", response_model = schemas.Account)
+@router.post("/signup", response_model = schemas.Account, tags=["account"])
 def signup(request: Request, db: Session = Depends(get_db), name: str = Form(), email: str = Form(), password: str = Form(), account_type: str = Form()):
     db_account = crud.get_account_by_email(db, email=email)
     if db_account:

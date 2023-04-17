@@ -273,6 +273,8 @@ def update_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, dif
     setattr(entry, "quantity", new_quantity)
     db.commit()
 
+def get_pantries_by_managerID(db: Session, id: int):
+    return db.query(models.Pantry).filter(models.Pantry.manager_id == id).all()
 
 def get_pantries_managed(db: Session, id: int) -> int:
     return len(db.query(models.Pantry).filter(models.Pantry.manager_id == id).all())
