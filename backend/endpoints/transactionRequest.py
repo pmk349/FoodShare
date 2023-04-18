@@ -1,17 +1,32 @@
 from typing import List
-
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
+import crud, models, schemas, session
+import main
+
+from .pantry import your_pantries
+
+from utils import utils
 from database import SessionLocal, engine
+
 
 from starlette.responses import RedirectResponse
 
 from database import get_db
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
+
 router = APIRouter()
 
+@router.get("/manager-transactions", response_class=HTMLResponse, tags=["Inventory Item"])
+def manager_transactions(request: Request):
+    return templates.TemplateResponse('manager-transactions.html',{'request': request})
 
 @router.post("/transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
 def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):

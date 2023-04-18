@@ -1,16 +1,32 @@
 from typing import List
-
-from fastapi import Depends, FastAPI, HTTPException, APIRouter
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-import crud, models, schemas
+import crud, models, schemas, session
+import main
+
+from .pantry import your_pantries
+
+from utils import utils
 from database import SessionLocal, engine
+
 
 from starlette.responses import RedirectResponse
 
 from database import get_db
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
+
 router = APIRouter()
+
+@router.get("/manager_inventories", response_class=HTMLResponse, tags=["Inventory Item"])
+def manager_inventories(request: Request):
+    return templates.TemplateResponse('manager-inventories.html',{'request': request})
 
 @router.post("/inventoryItem/", response_model=schemas.InventoryItem, tags=["Inventory Item"])
 def create_inventory_item(inventoryItem: schemas.InventoryItemCreate, db: Session = Depends(get_db)):

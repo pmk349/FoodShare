@@ -31,9 +31,8 @@ def create_pantry(request: Request, db: Session = Depends(get_db),  name: str = 
 
 @router.get("/your_pantries", response_model=List[schemas.Pantry], tags=["Pantry"])
 def your_pantries(db: Session = Depends(get_db)):
-    # id = main.SESSION_DATA['id']
-    # print(id)
-    pantries = crud.get_pantries_by_managerID(db, 10)
+    id = main.SESSION_DATA['id']
+    pantries = crud.get_pantries_by_managerID(db, id)
     return pantries
 
 @router.post("/pantry/", response_model=schemas.Pantry, tags=["Pantry"])
