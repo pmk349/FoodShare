@@ -181,6 +181,9 @@ def get_transaction_history(db: Session, pantry_id: int):
 def get_pending_transactions(db: Session, pantry_id: int):
     return db.query(models.TransactionRequest).filter(and_(models.TransactionRequest.pantry_id == pantry_id,
                                                     models.TransactionRequest.request_status == 'pending')).all()
+def get_approved_denied_transactions(db: Session, pantry_id: int):
+    return db.query(models.TransactionRequest).filter(and_(models.TransactionRequest.pantry_id == pantry_id,
+                                                    models.TransactionRequest.request_status != 'pending')).all()
 
 
 def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int, status: str):

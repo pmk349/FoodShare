@@ -28,26 +28,36 @@ router = APIRouter()
 @router.get("/manager-transactions", response_class=HTMLResponse, tags=["Inventory Item"])
 def manager_transactions(request: Request, db: Session = Depends(get_db)):
     data = []
+    data2 = []
     pending_transactions = []
+    transactions = []
     account_id = main.SESSION_DATA["id"]
     pantries = crud.get_pantryIDs_by_managerID(db, account_id)
     print(pantries)
     for i in pantries:
-        print(i)
         pending_transactions += crud.get_pending_transactions(db, i.id)
+        transactions += crud.get_approved_denied_transactions(db, i.id)
 
     for x in pending_transactions:
-        print(x)
         pantry_name = (crud.get_pantry_by_id(db, x.pantry_id)).name
         if x.anonymous == True:
             shopper_name = "Anonymous"
         else:
             shopper_name = (crud.get_account_by_id(db, x.shopper_id)).name
         data.append([pantry_name, shopper_name, x.request_time, x.request_action, x.summary, x.quantity])
+    for x in transactions:
+        pantry_name = (crud.get_pantry_by_id(db, x.pantry_id)).name
+        if x.anonymous == True:
+            shopper_name = "Anonymous"
+        else:
+            shopper_name = (crud.get_account_by_id(db, x.shopper_id)).name
+        data2.append([pantry_name, shopper_name, x.request_time, x.request_action, x.summary, x.quantity, x.request_status])
 
     print(data)
+    print(data2)
     return templates.TemplateResponse('manager-transactions.html',{'request': request,
-                                                                   'data': data})
+                                                                   'data': data,
+                                                                   'data2': data2})
 
 
 @router.post("/transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
