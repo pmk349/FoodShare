@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -43,7 +43,7 @@ async def signin(request: Request, db: Session = Depends(get_db),  email: str = 
                 return templates.TemplateResponse('signin.html',{'request': request})
             else:
                 session.login(db, id=db_account.id, type='manager')
-                return RedirectResponse("/manager-dashboard")
+                return RedirectResponse("/manager-dashboard", status_code=status.HTTP_303_SEE_OTHER)
         else:
             return '''<dialog open>
                             <p>Incorrect Password</p>
@@ -53,7 +53,8 @@ async def signin(request: Request, db: Session = Depends(get_db),  email: str = 
                         </dialog>
             '''
 
-@router.post("/manager-dashboard", response_class=HTMLResponse, tags=["account"])
+
+@router.get("/manager-dashboard", response_class=HTMLResponse, tags=["account"])
 async def manager_dashboard(request: Request, db: Session = Depends(get_db)):
     data = []
     account_id = main.SESSION_DATA["id"]

@@ -24,9 +24,31 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
 
 router = APIRouter()
 
+###NEED TO FINISH THIS###
 @router.get("/manager-transactions", response_class=HTMLResponse, tags=["Inventory Item"])
-def manager_transactions(request: Request):
-    return templates.TemplateResponse('manager-transactions.html',{'request': request})
+def manager_transactions(request: Request, db: Session = Depends(get_db)):
+    data = []
+    pending_transactions = []
+    account_id = main.SESSION_DATA["id"]
+    pantries = crud.get_pantryIDs_by_managerID(db, account_id)
+    print(pantries)
+    for i in pantries:
+        print(i)
+        pending_transactions += crud.get_pending_transactions(db, i.id)
+
+    for x in pending_transactions:
+        print(x)
+        pantry_name = (crud.get_pantry_by_id(db, x.pantry_id)).name
+        if x.anonymous == True:
+            shopper_name = "Anonymous"
+        else:
+            shopper_name = (crud.get_account_by_id(db, x.shopper_id)).name
+        data.append([pantry_name, shopper_name, x.request_time, x.request_action, x.summary, x.quantity])
+
+    print(data)
+    return templates.TemplateResponse('manager-transactions.html',{'request': request,
+                                                                   'data': data})
+
 
 @router.post("/transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
 def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):

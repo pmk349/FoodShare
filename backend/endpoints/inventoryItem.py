@@ -24,7 +24,7 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
 
 router = APIRouter()
 
-@router.get("/manager_inventories", response_class=HTMLResponse, tags=["Inventory Item"])
+@router.get("/manager-inventories", response_class=HTMLResponse, tags=["Inventory Item"])
 def manager_inventories(request: Request):
     return templates.TemplateResponse('manager-inventories.html',{'request': request})
 

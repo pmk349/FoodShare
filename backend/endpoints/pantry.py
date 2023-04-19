@@ -27,7 +27,7 @@ def create_pantry(request: Request, db: Session = Depends(get_db),  name: str = 
     if db_pantry:
         raise HTTPException(status_code=400, detail="Pantry already exists")
     crud.create_pantry(db=db, pantry=schemas.PantryCreate(name = name, address = address))
-    return templates.TemplateResponse('manager-dashboard.html',{'request': request})
+    return RedirectResponse("/manager-dashboard")
 
 @router.get("/your_pantries", response_model=List[schemas.Pantry], tags=["Pantry"])
 def your_pantries(db: Session = Depends(get_db)):
