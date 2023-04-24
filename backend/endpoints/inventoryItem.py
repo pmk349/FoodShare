@@ -25,8 +25,18 @@ templates = Jinja2Templates(directory=str(Path(BASE_DIR,'templates')))
 router = APIRouter()
 
 @router.get("/manager-inventories", response_class=HTMLResponse, tags=["Inventory Item"])
-def manager_inventories(request: Request):
-    return templates.TemplateResponse('manager-inventories.html',{'request': request})
+def manager_inventories(request: Request, db: Session = Depends(get_db)):
+    data = []
+    pantries = your_pantries(db)
+    print(pantries)
+    for i in pantries:
+        data.append([])
+    print(data)
+    return templates.TemplateResponse('manager-inventories.html',{'request': request,
+                                                                  'data': data})
+
+@router.post("/add_item", response_class=HTMLResponse, tags=["Item Inventory"])
+def add_item(db: Session = Depends(get_db), )
 
 @router.post("/inventoryItem/", response_model=schemas.InventoryItem, tags=["Inventory Item"])
 def create_inventory_item(inventoryItem: schemas.InventoryItemCreate, db: Session = Depends(get_db)):

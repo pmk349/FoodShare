@@ -239,10 +239,10 @@ s
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-white rounded h-100 p-4 text-light">
                             <h3 class="mb-4 text-offblack">Add Item</h3>
-                            <form method = "post" action = "/create_pantry">
+                            <form method = "post" action = "/add_item">
                                 <div class="mb-3">
-                                    <label for="pantryName" class="form-label">Item Type</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                    <label for="exampleInputPassword1" class="form-label">Item Type</label>
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" id="exampleInputPassword1" name = "item_type">
                                         <option selected>Select One</option>
                                         <option value="1">Produce</option>
                                         <option value="2">Dairy</option>
@@ -251,7 +251,7 @@ s
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" id="exampleInputPassword1" name = "quantity">
                                         <option selected>Select One</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -267,17 +267,11 @@ s
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Expiration Date</label>
-                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "city">
+                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "expiration_date">
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Summary</label>
-                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "state">
-                                </div>
-                                <div class="mb-3">
-                                    <div class="mb-3">
-                                        <label for="formFile" class="form-label">Image</label>
-                                        <input class="form-control bg-dark" type="file" id="formFile">
-                                    </div>
+                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "summary">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
