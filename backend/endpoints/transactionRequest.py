@@ -52,9 +52,6 @@ def manager_transactions(request: Request, db: Session = Depends(get_db)):
         else:
             shopper_name = (crud.get_account_by_id(db, x.shopper_id)).name
         data2.append([pantry_name, shopper_name, x.request_time, x.request_action, x.summary, x.quantity, x.request_status])
-
-    print(data)
-    print(data2)
     return templates.TemplateResponse('manager-transactions.html',{'request': request,
                                                                    'data': data,
                                                                    'data2': data2})

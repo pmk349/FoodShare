@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form
+from fastapi import Depends, FastAPI, HTTPException, APIRouter, Request, Form, status
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
@@ -27,7 +27,7 @@ def create_pantry(request: Request, db: Session = Depends(get_db),  name: str = 
     if db_pantry:
         raise HTTPException(status_code=400, detail="Pantry already exists")
     crud.create_pantry(db=db, pantry=schemas.PantryCreate(name = name, address = address))
-    return RedirectResponse("/manager-dashboard")
+    return RedirectResponse("/manager-dashboard", status_code=status.HTTP_303_SEE_OTHER)
 
 @router.get("/your_pantries", response_model=List[schemas.Pantry], tags=["Pantry"])
 def your_pantries(db: Session = Depends(get_db)):

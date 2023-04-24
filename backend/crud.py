@@ -197,7 +197,7 @@ def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int,
     db.commit()
 
     # if donate and approved, add item to inventory
-    if entry .request_action == 'donate' and status == 'approved':
+    if entry.request_action == 'donate' and status == 'approved':
         add_item_to_pantry(db=db, pantry_id=pantry_id, item_id=entry.item_id)
 
     # if donate and denied, remove item from inventoryItems
