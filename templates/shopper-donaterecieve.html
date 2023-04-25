@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>1 Dashboard</title>
+    <title>5 Donate or Recieve</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -56,7 +56,7 @@ s
                     </div>
                 </div>
                 <div class="navbar-nav navbar-darkest w-100 text-light">
-                    <a href="/manager-dashboard" class="nav-item nav-link active "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/manager-dashboard" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="/manager-inventories" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Inventories</a>
                     <a href="/manager-transactions" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Transactions</a>
                     <div class="d-flex align-items-center ms-4 mb-4">
@@ -65,7 +65,7 @@ s
                         </div>
                     </div>
                     <a href="/shopper-pantrybrowser" class="nav-item nav-link "><i class="fa-solid fa-list-check me-2"></i>Pantry Browser</a>
-                    <a href="/shopper-donaterecieve" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Donations and Requests</a>
+                    <a href="/shopper-donaterecieve" class="nav-item nav-link active"><i class="fa-solid fa-list-check me-2"></i>Donations and Requests</a>
                     <a href="/shopper-mypantries" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>My Pantries</a>
                 </div>
             </nav>
@@ -157,62 +157,44 @@ s
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">Settings</a>
-                            <a href="/signin" class="dropdown-item">Log Out</a>
+                            <a href="signin.html" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
             </nav>
             <!-- Navbar End -->
             
-            <!-- Fun Info Bars -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-4">
-                        <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
-                            <div class="ms-3">
-                                <p class="mb-2 text-offblack">Pantries Managed</p>
-                                <h2 class="mb-0 text-light">{{pantries_managed}}</h2>
-                            </div>
-                            <i class="fa fa-house-user fa-4x text-offblack"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 ">
-                        <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
-                            <div class="ms-3">
-                                <p class="mb-2 text-offblack">Students Helped</p>
-                                <h2 class="mb-0 text-light">{{students_helped}}</h2>
-                            </div>
-                            <i class="fa fa-face-laugh-beam fa-4x text-green"></i>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 ">
-                        <div class="bg-white rounded d-flex align-items-center justify-content-between p-4">
-                            <div class="ms-3">
-                                <p class="mb-2 text-offblack">Transactions Made</p>
-                                <h2 class="mb-0 text-light">{{total_transactions}}</h2>
-                            </div>
-                            <i class="fa fa-star fa-4x text-yellow"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Fun Info Bar End -->
 
-            <!-- Your Pantries Start -->
+            <!-- Inventory Display Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-white text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h3 class="mb-0 text-offblack">Your Pantries</h3>
-                        <a href="">Show All</a>
+                        <h3 class="mb-0 text-offblack">Pantry Inventories</h3>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                            <option selected>Select Pantry to Display Inventory</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="2">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
                     </div>
                     <div class="table-responsive">
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
-                            <thead>
+                            <thead> <!--pantry name, item type, quantity, expration date, summary, image -->>
                                 <tr class="bg-grey text-offblack">
                                     <th scope="col">Pantry Name</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Manager Name</th>
-                                    <th scope="col">Manage Pantry</th>
+                                    <th scope="col">Item Type</th>
+                                    <th scope="col">Expiration Date</th>
+                                    <th scope="col">Summary</th>
+                                    <th scope="col">Image</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -221,6 +203,7 @@ s
                                         <td>{{row[0]}}</td>
                                         <td>{{row[1]}}</td>
                                         <td>{{row[2]}}</td>
+                                        <td>{{row[3]}}</td>
                                         <td><a class="btn btn-sm btn-primary" href="/manager-inventories">Details</a></td>
                                     </tr>
                                 {% endfor %}
@@ -229,56 +212,142 @@ s
                     </div>
                 </div>
             </div>
-            <!-- Your Pantries End -->
+            <!-- Inventory Display End -->
 
-            <!-- Create Pantry Form Start -->
+            <!-- Donation Form Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-white rounded h-100 p-4 text-light">
-                            <h3 class="mb-4 text-offblack">Create a Pantry</h3>
+                            <h3 class="mb-4 text-offblack">Donation Form</h3>
                             <form method = "post" action = "/create_pantry">
                                 <div class="mb-3">
-                                    <label for="pantryName" class="form-label">Pantry Name</label>
+                                    <label for="pantryName" class="form-label">Shopper ID</label>
                                     <input type="text" class="form-control" id="pantryName" name = "name">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Street</label>
+                                    <label for="exampleInputPassword1" class="form-label">Pantry ID</label>
                                     <input type="address" class="form-control" id="exampleInputPassword1" name = "street">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">City</label>
+                                    <label for="exampleInputPassword1" class="form-label">Item ID</label>
                                     <input type="address" class="form-control" id="exampleInputPassword1" name = "city">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">State</label>
-                                    <input type="address" class="form-control" id="exampleInputPassword1" name = "state">
+                                    <label for="exampleInputPassword1" class="form-label">Quantity</label>
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="2">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Zip</label>
+                                    <label for="exampleInputPassword1" class="form-label">Summary</label>
                                     <input type="zipcode" class="form-control" id="exampleInputPassword1" name = "zip">
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">Remain Anonymous</label>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                     </div>
+                    <!--Donation Form End / Request Form start-->
                     <div class="col-sm-12 col-xl-6">
-                        <div class="bg-grey rounded h-100 p-4">
-                            <!-- 
-                            <h3 class="mb-4 text-offblack">Update Pantry</h3>
-                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                <option selected>Pantry Name</option>
-                                <option value="1">Pantry One</option>
-                                <option value="2">Pantry Two</option>
-                                <option value="3">Pantry Three</option>
-                            </select>-->
+                        <div class="bg-white rounded h-100 p-4 text-light">
+                            <h3 class="mb-4 text-offblack">Request Form</h3>
+                            <form method = "post" action = "/create_pantry">
+                                <div class="mb-3">
+                                    <label for="pantryName" class="form-label">Shopper ID</label>
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="2">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Pantry ID</label>
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="2">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Item ID</label>
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="2">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Quantity</label>
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="2">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Summary</label>
+                                    
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <label class="form-check-label" for="exampleCheck1">Remain Anonymous</label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
                     </div>
-                    
+                    <!--Request Form End-->
                     
                 </div>
             </div>
             <!-- Blank End -->
+
+            
 
 
             <!-- Footer Start -->
