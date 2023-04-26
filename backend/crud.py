@@ -165,7 +165,7 @@ def add_item_to_pantry(db: Session, item_id: int, pantry_id: int):
     db.refresh(db_entry)
     return db_entry
 
-def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int):
+def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int, quantity: int):
     try:
         item = db.query(models.Inventory).filter(and_(models.Inventory.item_id==item_id,
                                                models.Inventory.pantry_id==pantry_id)).delete()
@@ -217,6 +217,9 @@ def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int,
 def get_inventoryItem_by_id(db: Session, inventoryItem_id: int):
     return db.query(models.Inventory_Item).filter(models.Inventory_Item.id == inventoryItem_id).first()
 
+def get_inventoryItem_by_summary(db: Session, summary: str):
+    return db.query(models.Inventory_Item).filter(models.Inventory_Item.summary == summary).first()
+
 def get_inventoryItems(db: Session, skip: int = 0, limit: int = 100):
     '''
     Return an array of accounts. (README-UserStory-A1A)
@@ -228,6 +231,9 @@ def get_inventory_by_pantryID(db: Session, id: int):
     Return an array of accounts. (README-UserStory-A1A)
     '''
     return db.query(models.Inventory).filter(models.Inventory.pantry_id == id).all()
+
+def get_inventory_pantryID_by_itemID(db: Session, item_id: int):
+    return db.query(models.Inventory.pantry_id).filter(models.Inventory.item_id == item_id).first()
 
 def create_inventoryItem(db: Session, inventoryItem: schemas.InventoryItem):
     '''
@@ -275,6 +281,9 @@ def update_inventoryItem_quantity(db: Session, pantry_id: int, item_id: int, dif
 
     setattr(entry, "quantity", new_quantity)
     db.commit()
+
+def get_pantryID_by_name(db: Session, name: str):
+    return db.query(models.Pantry.id).filter(models.Pantry.name == name).first()
 
 def get_pantries_by_managerID(db: Session, id: int):
     return db.query(models.Pantry).filter(models.Pantry.manager_id == id).all()

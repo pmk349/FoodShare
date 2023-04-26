@@ -56,6 +56,9 @@ def manager_transactions(request: Request, db: Session = Depends(get_db)):
                                                                    'data': data,
                                                                    'data2': data2})
 
+@router.get("/shopper-donaterecieve", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
+def shopper_donaterecieve(request: Request, db: Session = Depends(get_db)):
+    return templates.TemplateResponse('shopper-donaterecieve.html',{'request': request})
 
 @router.post("/transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
 def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):
