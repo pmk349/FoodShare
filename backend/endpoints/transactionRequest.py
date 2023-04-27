@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 import crud, models, schemas, session
 import main
+import datetime
 
 from .pantry import your_pantries
 
@@ -60,13 +61,13 @@ def manager_transactions(request: Request, db: Session = Depends(get_db)):
 def shopper_donaterecieve(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse('shopper-donaterecieve.html',{'request': request})
 
-@router.post("/transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
-def create_trasactionRequest(transactionRequest: schemas.TransactionRequestCreate, db: Session = Depends(get_db)):
-    # check that email does not exist already
-
-    # TODO: review the logic in this
-
-    return crud.create_transactionRequest(db=db, transactionRequest=transactionRequest)
+@router.post("/create_transactionRequest/", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
+def create_transactionRequest(request: Request, db: Session = Depends(get_db), item_type: str = Form(), quantity: int = Form(), expiration_date: str = Form(), summary: str = Form(), anonymous: bool = Form()):
+    current_time = datetime.datetime.now()
+    time_str = current_time.strftime('%Y-%m-%d %H:%M:%S')
+    crud.create_inventoryItem(db=db, inventoryItem=schemas.InventoryItemCreate(item_type=item_type, expiration_date=expiration_date, quantity=quantity, summary=summary, anonymous=anonymous))
+    crud.create_transactionRequest(db=db, transactionRequest=schemas.TransactionRequestCreate(req_time = time_str, quantity = quantity, summary = summary, anonymous = anonymous))
+    return RedirectResponse()
 
 @router.post("/transactionRequest/{pantry_id}", response_model=List[schemas.TransactionRequest], tags=["Transaction Request"])
 def get_pending_transactions(pantry_id: int, db: Session = Depends(get_db)):
