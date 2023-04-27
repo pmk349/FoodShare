@@ -35,6 +35,30 @@ def your_pantries(db: Session = Depends(get_db)):
     pantries = crud.get_pantries_by_managerID(db, id)
     return pantries
 
+
+@router.get("/shopper-pantrybrowser", response_class=HTMLResponse, tags=["Pantry"])
+def shopper_pantrybrowser(request: Request, db: Session = Depends(get_db)):
+    data = []
+    
+    for i in crud.get_pantries(db):
+        manager = crud.get_account_by_id(db, i.manager_id)
+        data.append([i.name, i.address, manager.name])
+    return templates.TemplateResponse('shopper-pantrybrowser.html',{'request': request,
+                                                                    'data': data})
+
+@router.get("/shopper-mypantries", response_class=HTMLResponse, tags=["Pantry"])
+def shopper_mypantries(request: Request, db: Session = Depends(get_db)):
+    data = []
+    my_pantries = crud.get_myPantries_by_shopperID(db, main.SESSION_DATA["id"])
+    for i in my_pantries:
+        pantry = crud.get_pantry_by_id(db, i.pantry_id)
+        manager_name = (crud.get_account_by_id(db, pantry.manager_id)).name
+        data.append([pantry.name, pantry.address, manager_name])
+
+    return templates.TemplateResponse('shopper-mypantries.html',{'request': request,
+                                                                 'data': data})
+
+
 @router.post("/pantry/", response_model=schemas.Pantry, tags=["Pantry"])
 def create_pantry(pantry: schemas.PantryCreate, db: Session = Depends(get_db)):
     # check that email does not exist already

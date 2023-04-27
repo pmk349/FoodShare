@@ -60,10 +60,8 @@ async def manager_dashboard(request: Request, db: Session = Depends(get_db)):
     account_id = main.SESSION_DATA["id"]
     db_account = crud.get_account_by_id(db, account_id=account_id)
     pantries = your_pantries(db)
-    print(pantries)
     for i in pantries:
         data.append([i.name,i.address, db_account.name])
-    print(data)
     return templates.TemplateResponse('manager-dashboard.html',{'request': request, 
                                                                 'pantries_managed' : main.SESSION_DATA["pantries_managed"],
                                                                 'students_helped' : main.SESSION_DATA["students_helped"],
