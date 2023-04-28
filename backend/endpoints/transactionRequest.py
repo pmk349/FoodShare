@@ -112,3 +112,11 @@ def get_transaction_history(pantry_id: int, db: Session = Depends(get_db)):
 @router.post("/transactionRequest/{pantry_id}/{transaction_id}/{status}", tags=["Transaction Request"])
 def update_pending_transaction(pantry_id: int, transaction_id: int, status: str, db: Session = Depends(get_db)):
     return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status=status)
+
+@router.post("/approveRequest", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
+def approve_request(db: Session = Depends(get_db), pantry_id: int=Form(), transaction_id:int=Form()):
+    return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='approved')
+
+@router.post("/denyRequest", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
+def deny_request(db: Session = Depends(get_db), pantry_id: int=Form(), transaction_id:int=Form()):
+    return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='denied')
