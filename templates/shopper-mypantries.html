@@ -33,8 +33,8 @@ s
     <link href="../static/css/style.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container-fluid position-relative d-flex p-0">
+<body class="bg-grey">
+    <div class="container-fluid position-relative d-flex p-0 bg-grey">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-grey position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
@@ -46,7 +46,7 @@ s
 
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3 bg-white">
-            <nav class="navbar bg-white navbar-dark">
+            <nav class="navbar navbar-dark  bg-white">
                 <a href="/manager-dashboard" class="navbar-brand mx-4 mb-3">
                     <h2 class="text-darkpurple"><i class="fa-solid fa-utensils me-2"></i>Food Share</h2>
                 </a>
@@ -56,17 +56,17 @@ s
                     </div>
                 </div>
                 <div class="navbar-nav navbar-darkest w-100 text-light">
-                    <a href="/manager-dashboard" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="/manager-inventories" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Inventories</a>
-                    <a href="/manager-transactions" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Transactions</a>
+                    <a href="/manager-dashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="/manager-inventories" class="nav-item nav-link "><i class="fa-solid fa-warehouse me-2"></i>Inventories</a>
+                    <a href="/manager-transactions" class="nav-item nav-link"><i class="fa-solid fa-cart-shopping me-2"></i>Transactions</a>
                     <div class="d-flex align-items-center ms-4 mb-4">
                         <div class="text-light">
                             <h4 class="mb-0 text-dark">Shopper View</h4>
                         </div>
                     </div>
-                    <a href="/shopper-pantrybrowser" class="nav-item nav-link "><i class="fa-solid fa-list-check me-2"></i>Pantry Browser</a>
-                    <a href="/shopper-donaterecieve" class="nav-item nav-link"><i class="fa-solid fa-list-check me-2"></i>Donations and Requests</a>
-                    <a href="/shopper-mypantries" class="nav-item nav-link active"><i class="fa-solid fa-list-check me-2"></i>My Pantries</a>
+                    <a href="/shopper-pantrybrowser" class="nav-item nav-link "><i class="fa-solid fa-house-chimney-user me-2"></i>Pantry Browser</a>
+                    <a href="/shopper-donaterecieve" class="nav-item nav-link"><i class="fa-solid fa-handshake me-2"></i>Donations and Requests</a>
+                    <a href="/shopper-mypantries" class="nav-item nav-link active"><i class="fa-solid fa-user me-2"></i>My Pantries</a>
                 </div>
             </nav>
         </div>
@@ -77,87 +77,23 @@ s
         <div class="content">
             <!-- Navbar Start -->
             <nav id ="top_navbar" class="navbar navbar-expand bg-white navbar-dark sticky-top px-4 py-0 ">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-dark mb-0"><i class="fa fa-user-edit"></i></h2>
+                <a href="#" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-dark mb-0"><i class="fa utensils"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control bg-grey border-0" type="search" placeholder="Search">
-                </form>
+                
                 <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex text-offblack">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex text-offblack">Notifications</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-white  border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div>
+                    
+                    
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
                             <span class="d-none d-lg-inline-flex text-offblack">John Doe</span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-white border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a href="signin.html" class="dropdown-item">Log Out</a>
+                        <div class="dropdown-menu dropdown-menu-end bg-grey border-0 rounded-0 rounded-bottom m-0">
+                            <a href="/signin" class="text-offblack dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -201,15 +137,15 @@ s
             
 
             <!-- Footer Start -->
-            <div id="bot_navbar" class="container-fluid pt-5 px-4">
+            <div class="container-fluid pt-4 px-4">
                 <div class="bg-white rounded-top p-4">
                     <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start text-light">
+                        <div class="col-12 col-sm-6 text-center text-light text-sm-start">
                             &copy; <a href="/manager-dashboard">Food Share</a>, All Right Reserved. 
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end text-light">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com" >HTML Codex</a>
+                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
                         </div>
                     </div>
                 </div>
