@@ -204,6 +204,7 @@ def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int,
     # if donate and denied, remove item from inventoryItems
     elif entry.request_action == 'donate' and status == 'denied':
         drop_inventoryItem(db=db, item_id=entry.item_id)
+        
 
     # if receive and approved, subtract items from inventory
     elif entry.request_action == 'receive' and status == 'approved':
