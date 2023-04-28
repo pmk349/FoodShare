@@ -130,8 +130,8 @@ s
                                         <td>{{row[4]}}</td>
                                         <td>{{row[5]}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-success">Approve</button>
-                                            <button type="button" class="btn btn-danger">Deny</button>
+                                            <a type="button" class="btn btn-success" href="/approveRequest/{{row[0]}}/{{row[4]}}/{{row[5]}}">Approve</a>
+                                            <a type="button" class="btn btn-danger">Deny</a>
                                         </td>
                                     </tr>
                                 {% endfor %}

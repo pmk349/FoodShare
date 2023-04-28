@@ -58,7 +58,7 @@ def manager_transactions(request: Request, db: Session = Depends(get_db)):
                                                                    'data': data,
                                                                    'data2': data2})
 
-@router.get("/shopper-donaterecieve", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
+@router.get("/shopper-donaterecieve", response_class=HTMLResponse, tags=["Transaction Request"])
 def shopper_donaterecieve(request: Request, db: Session = Depends(get_db)):
     data = []
     my_pantries = crud.get_myPantries_by_shopperID(db, main.SESSION_DATA["id"])
@@ -76,8 +76,7 @@ def create_transactionRequest(db: Session = Depends(get_db),
                               expiration_date: str = Form(), 
                               summary: str = Form(),
                               anonymous: bool = Form()):
-    current_time = datetime.datetime.now()
-    time_str = current_time.strftime('%Y-%m-%d %H:%M:%S')
+    current_time = datetime.datetime.now().replace(microsecond=0)
     inventoryItem = schemas.InventoryItemCreate(item_type=item_type, 
                                         expiration_date=expiration_date, 
                                         quantity=quantity, 
@@ -85,22 +84,36 @@ def create_transactionRequest(db: Session = Depends(get_db),
     crud.create_inventoryItem(db=db, inventoryItem=inventoryItem)
     item_id = (db.query(func.max(models.Inventory_Item.id)).one())[0]
     pantry_id = (crud.get_pantryID_by_name(db, pantry_name))[0]
-    print(anonymous)
-    if anonymous == "true":
+    if anonymous == True:
         anonymous = True
     else:
         anonymous = False
-    print(anonymous)
     crud.create_transactionRequest(db=db, transactionRequest=schemas.TransactionRequestCreate(shopper_id = main.SESSION_DATA['id'],
                                                                                               pantry_id = pantry_id,
                                                                                               item_id = item_id,
-                                                                                              req_time = time_str, 
+                                                                                              req_time = current_time, 
                                                                                               req_action = "Donate",
                                                                                               quantity = quantity, 
                                                                                               expiration_date = expiration_date,
                                                                                               summary = summary,
                                                                                               anonymous = anonymous))
     return RedirectResponse("/manager-transactions", status_code=status.HTTP_303_SEE_OTHER)
+
+@router.get("/approveRequest/{pantry_name}/{item_type}/{quantity}", response_class=HTMLResponse, tags=["Transaction Request"])
+def approve_request(pantry_name: str, item_type: str, quantity: int, db: Session = Depends(get_db)):
+    print("Hi")
+    print(pantry_name)
+    print(item_type)
+    pantry_id = (crud.get_pantryID_by_name(db, pantry_name))[0]
+    transaction_id = (crud.get_transactionID_by_item_pending(db, item_type))[0]
+    print(pantry_id)
+    print(transaction_id)
+    crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='approved')
+    return RedirectResponse("/manager-transactions", status_code=status.HTTP_303_SEE_OTHER)
+
+@router.post("/denyRequest", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
+def deny_request(db: Session = Depends(get_db), pantry_id: int=Form(), transaction_id:int=Form()):
+    return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='denied')
 
 @router.post("/transactionRequest/{pantry_id}", response_model=List[schemas.TransactionRequest], tags=["Transaction Request"])
 def get_pending_transactions(pantry_id: int, db: Session = Depends(get_db)):
@@ -113,10 +126,3 @@ def get_transaction_history(pantry_id: int, db: Session = Depends(get_db)):
 def update_pending_transaction(pantry_id: int, transaction_id: int, status: str, db: Session = Depends(get_db)):
     return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status=status)
 
-@router.post("/approveRequest", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
-def approve_request(db: Session = Depends(get_db), pantry_id: int=Form(), transaction_id:int=Form()):
-    return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='approved')
-
-@router.post("/denyRequest", response_model=schemas.TransactionRequest, tags=["Transaction Request"])
-def deny_request(db: Session = Depends(get_db), pantry_id: int=Form(), transaction_id:int=Form()):
-    return crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='denied')

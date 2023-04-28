@@ -126,6 +126,7 @@ def create_transactionRequest(db: Session, transactionRequest: schemas.Transacti
                                                       quantity = transactionRequest.quantity,
                                                       summary = transactionRequest.summary,
                                                       anonymous = transactionRequest.anonymous)
+    print("done")
     db.add(db_transactionRequest)
     db.commit()
     db.refresh(db_transactionRequest)
@@ -166,7 +167,7 @@ def add_item_to_pantry(db: Session, item_id: int, pantry_id: int):
     db.refresh(db_entry)
     return db_entry
 
-def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int, quantity: int):
+def remove_item_from_inventory(db: Session, item_id: int, pantry_id: int):
     try:
         item = db.query(models.Inventory).filter(and_(models.Inventory.item_id==item_id,
                                                models.Inventory.pantry_id==pantry_id)).delete()
@@ -182,6 +183,9 @@ def get_transaction_history(db: Session, pantry_id: int):
 def get_pending_transactions(db: Session, pantry_id: int):
     return db.query(models.TransactionRequest).filter(and_(models.TransactionRequest.pantry_id == pantry_id,
                                                     models.TransactionRequest.request_status == 'pending')).all()
+def get_transactionID_by_item_pending(db:Session, item):
+    return db.query(models.TransactionRequest.id).filter(and_(models.TransactionRequest.summary == item,
+                                                              models.TransactionRequest.request_status =='pending')).first()
 def get_approved_denied_transactions(db: Session, pantry_id: int):
     return db.query(models.TransactionRequest).filter(and_(models.TransactionRequest.pantry_id == pantry_id,
                                                     models.TransactionRequest.request_status != 'pending')).all()
@@ -208,7 +212,7 @@ def update_pending_transaction(db: Session, pantry_id: int, transaction_id: int,
 
     # if receive and approved, subtract items from inventory
     elif entry.request_action == 'receive' and status == 'approved':
-        update_inventoryItem_quantity(db=db, pantry_id=pantry_id, item_id=entry.item_id, add=False, diff=entry.quantity)
+        update_inventoryItem_quantity(db=db, pantry_id=pantry_id, item_id=entry.item_id, diff=entry.quantity, add=False)
 
     # if receive and denied, do nothing
 

@@ -108,7 +108,7 @@ class TransactionRequestBase(BaseModel):
     item_id: int
 
 class TransactionRequestCreate(TransactionRequestBase):
-    req_time: str
+    req_time: datetime
     req_action: str
     quantity: int
     summary: str
