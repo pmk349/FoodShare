@@ -78,8 +78,7 @@ def join_pantry(db: Session, shopper_id: int, pantry_id: int):
     No return. Update pantry-shopper. (README-UserStory-A1B)
     '''
     db_pantryShopper = models.Pantry_Shopper(pantry_id = pantry_id,
-                                            shopper_id = shopper_id,
-                                            notifications = True)
+                                            shopper_id = shopper_id)
     db.add(db_pantryShopper)
     db.commit()
     db.refresh(db_pantryShopper)

@@ -101,13 +101,8 @@ def create_transactionRequest(db: Session = Depends(get_db),
 
 @router.get("/approveRequest/{pantry_name}/{item_type}/{quantity}", response_class=HTMLResponse, tags=["Transaction Request"])
 def approve_request(pantry_name: str, item_type: str, quantity: int, db: Session = Depends(get_db)):
-    print("Hi")
-    print(pantry_name)
-    print(item_type)
     pantry_id = (crud.get_pantryID_by_name(db, pantry_name))[0]
     transaction_id = (crud.get_transactionID_by_item_pending(db, item_type))[0]
-    print(pantry_id)
-    print(transaction_id)
     crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='approved')
     return RedirectResponse("/manager-transactions", status_code=status.HTTP_303_SEE_OTHER)
 

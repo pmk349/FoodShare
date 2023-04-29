@@ -49,7 +49,7 @@ class PantryShopperBase(BaseModel):
     pass
 
 class PantryShopperCreate(PantryShopperBase):
-    notifications: bool
+    pass
 
 class PantryShopper(PantryShopperBase):
     pantry_id: int

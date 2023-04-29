@@ -27,7 +27,6 @@ class Pantry_Shopper(Base):
 
     pantry_id = Column(Integer, primary_key = True, index = True)
     shopper_id = Column(Integer, primary_key = True, index = True)
-    notifications = Column(Boolean)
 
 class Inventory_Item(Base):
     __tablename__ = 'inventory_item'
