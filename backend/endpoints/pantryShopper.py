@@ -23,12 +23,14 @@ router = APIRouter()
 @router.get("/shopper-pantrybrowser", response_class=HTMLResponse, tags=["Pantry"])
 def shopper_pantrybrowser(request: Request, db: Session = Depends(get_db)):
     data = []
-    
+    account_id = main.SESSION_DATA["id"]
+    db_account = crud.get_account_by_id(db, account_id=account_id)
     for i in crud.get_pantries(db):
         manager = crud.get_account_by_id(db, i.manager_id)
         data.append([i.name, i.address, manager.name])
     return templates.TemplateResponse('shopper-pantrybrowser.html',{'request': request,
-                                                                    'data': data})
+                                                                    'data': data,
+                                                                    'name': db_account.name})
 
 @router.get("/join-pantry/{pantry_name}", tags=["Pantry Shopper"])
 def join_pantry(pantry_name: str, db: Session = Depends(get_db)):

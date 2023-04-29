@@ -66,7 +66,8 @@ async def manager_dashboard(request: Request, db: Session = Depends(get_db)):
                                                                 'pantries_managed' : main.SESSION_DATA["pantries_managed"],
                                                                 'students_helped' : main.SESSION_DATA["students_helped"],
                                                                 'total_transactions': main.SESSION_DATA["total_transactions"],
-                                                                'data': data}
+                                                                'data': data,
+                                                                'name': db_account.name}
                                     )
 
 
@@ -84,7 +85,7 @@ def signup(request: Request, db: Session = Depends(get_db), name: str = Form(), 
         return True
     else:
         session.login(db, id=db_account.id, type='manager')
-        return templates.TemplateResponse('manager-dashboard.html',{'request': request})
+        return RedirectResponse("/manager-dashboard", status_code=status.HTTP_303_SEE_OTHER)
 
 
 @router.post("/account/", response_model=schemas.Account, tags=["account"])

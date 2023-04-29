@@ -34,6 +34,7 @@ def manager_transactions(request: Request, db: Session = Depends(get_db)):
     pending_transactions = []
     transactions = []
     account_id = main.SESSION_DATA["id"]
+    db_account = crud.get_account_by_id(db, account_id=account_id)
     pantries = crud.get_pantryIDs_by_managerID(db, account_id)
     print(pantries)
     for i in pantries:
@@ -56,17 +57,33 @@ def manager_transactions(request: Request, db: Session = Depends(get_db)):
         data2.append([pantry_name, shopper_name, x.request_time, x.request_action, x.summary, x.quantity, x.request_status])
     return templates.TemplateResponse('manager-transactions.html',{'request': request,
                                                                    'data': data,
-                                                                   'data2': data2})
+                                                                   'data2': data2,
+                                                                   'name': db_account.name})
 
 @router.get("/shopper-donaterecieve", response_class=HTMLResponse, tags=["Transaction Request"])
 def shopper_donaterecieve(request: Request, db: Session = Depends(get_db)):
     data = []
+    items = []
+    account_id = main.SESSION_DATA["id"]
+    db_account = crud.get_account_by_id(db, account_id=account_id)
     my_pantries = crud.get_myPantries_by_shopperID(db, main.SESSION_DATA["id"])
     for i in my_pantries:
         pantry = crud.get_pantry_by_id(db, i.pantry_id)
         data.append(pantry.name)
+        inventory_items = crud.get_inventory_by_pantryID(db, i.pantry_id)
+        items += inventory_items
+    data2 = []
+    item_summary = []
+    for i in items:
+        item = crud.get_inventoryItem_by_id(db, i.item_id)
+        item_summary.append(item.summary)
+        pantry = crud.get_pantry_by_id(db, i.pantry_id)
+        data2.append([pantry.name, item.item_type, item.quantity, item.expiration_date, item.summary])
     return templates.TemplateResponse('shopper-donaterecieve.html',{'request': request,
-                                                                    'data': data})
+                                                                    'data': data,
+                                                                    'data2': data2,
+                                                                    'items': item_summary,
+                                                                    'name': db_account.name})
 
 @router.post("/create-donationRequest", response_class=HTMLResponse, tags=["Transaction Request"])
 def create_transactionRequest(db: Session = Depends(get_db),
@@ -98,6 +115,29 @@ def create_transactionRequest(db: Session = Depends(get_db),
                                                                                               summary = summary,
                                                                                               anonymous = anonymous))
     return RedirectResponse("/manager-transactions", status_code=status.HTTP_303_SEE_OTHER)
+
+@router.post("/create-requestForm", response_class=HTMLResponse, tags=["Transaction Request"])
+def create_requestForm(db: Session = Depends(get_db), item_summary: str = Form(), quantity: int = Form(), anonymous: bool = Form()):
+    item = crud.get_inventoryItem_by_summary(db, item_summary)
+    item_id = item.id
+    pantry_id = (crud.get_inventory_pantryID_by_itemID(db, item_id))[0]
+    print(pantry_id)
+    current_time = datetime.datetime.now().replace(microsecond=0)
+    inventory_item = crud.get_inventoryItem_by_id(db, item_id)
+    if anonymous == True:
+        anonymous = True
+    else:
+        anonymous = False
+    crud.create_transactionRequest(db=db, transactionRequest=schemas.TransactionRequestCreate(shopper_id = main.SESSION_DATA['id'],
+                                                                                              pantry_id = pantry_id,
+                                                                                              item_id = item_id,
+                                                                                              req_time = current_time, 
+                                                                                              req_action = "Recieve",
+                                                                                              quantity = quantity, 
+                                                                                              expiration_date = inventory_item.expiration_date,
+                                                                                              summary = inventory_item.summary,
+                                                                                              anonymous = anonymous))
+    return RedirectResponse("/manager-inventories", status_code=status.HTTP_303_SEE_OTHER)
 
 @router.get("/approveRequest/{pantry_name}/{item_type}/{quantity}", response_class=HTMLResponse, tags=["Transaction Request"])
 def approve_request(pantry_name: str, item_type: str, quantity: int, db: Session = Depends(get_db)):

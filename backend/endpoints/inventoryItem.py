@@ -27,6 +27,8 @@ router = APIRouter()
 @router.get("/manager-inventories", response_class=HTMLResponse, tags=["Inventory Item"])
 def manager_inventories(request: Request, db: Session = Depends(get_db)):
     items = []
+    account_id = main.SESSION_DATA["id"]
+    db_account = crud.get_account_by_id(db, account_id=account_id)
     pantries = your_pantries(db)
     for i in pantries:
         inventory_items = crud.get_inventory_by_pantryID(db, i.id)
@@ -41,11 +43,14 @@ def manager_inventories(request: Request, db: Session = Depends(get_db)):
         item_summary.append(item.summary)
     return templates.TemplateResponse('manager-inventories.html',{'request': request,
                                                                   'data': data,
-                                                                  'items': item_summary})
+                                                                  'items': item_summary,
+                                                                  'name': db_account.name})
 
 @router.get("/inventory-details/{pantry_name}", response_class=HTMLResponse, tags=["Inventory Item"])
 def inventory_details(pantry_name: str, request: Request, db: Session = Depends(get_db)):
     data = []
+    account_id = main.SESSION_DATA["id"]
+    db_account = crud.get_account_by_id(db, account_id=account_id)
     pantryID = crud.get_pantryID_by_name(db,pantry_name)
     inventory_items = crud.get_inventory_by_pantryID(db, pantryID[0])
     for i in inventory_items:
@@ -53,7 +58,8 @@ def inventory_details(pantry_name: str, request: Request, db: Session = Depends(
         pantry = crud.get_pantry_by_id(db, i.pantry_id)
         data.append([pantry.name, item.item_type, item.quantity, item.expiration_date, item.summary])
     return templates.TemplateResponse('inventory-details.html',{'request': request,
-                                                                'data': data})
+                                                                'data': data,
+                                                                'name': db_account.name})
 
 @router.post("/add_item", response_class=HTMLResponse, tags=["Item Inventory"])
 def add_item(db: Session = Depends(get_db), pantry: str = Form(), item_type: str = Form(), quantity: int = Form(), expiration_date: str = Form(), summary: str = Form()):

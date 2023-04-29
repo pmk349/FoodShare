@@ -90,7 +90,7 @@ s
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex text-offblack">John Doe</span>
+                            <span class="d-none d-lg-inline-flex text-offblack">{{name}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-grey border-0 rounded-0 rounded-bottom m-0">
                             <a href="/signin" class="text-offblack dropdown-item">Log Out</a>
@@ -113,9 +113,9 @@ s
                                 <tr class="bg-grey text-offblack">
                                     <th scope="col">Pantry Name</th>
                                     <th scope="col">Item Type</th>
+                                    <th scope="col">Quantity</th>
                                     <th scope="col">Expiration Date</th>
                                     <th scope="col">Summary</th>
-                                    <th scope="col">Image</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,7 +125,7 @@ s
                                         <td>{{row[1]}}</td>
                                         <td>{{row[2]}}</td>
                                         <td>{{row[3]}}</td>
-                                        <td><a class="btn btn-sm btn-primary" href="/manager-inventories">Details</a></td>
+                                        <td>{{row[4]}}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -185,74 +185,20 @@ s
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-white rounded h-100 p-4 text-light">
                             <h3 class="mb-4 text-offblack">Request Form</h3>
-                            <form method = "post" action = "/create_pantry">
+                            <form method = "post" action = "/create-requestForm">
+                                <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name = "item_summary">
+                                    <option selected>Item Summary</option>
+                                    {% for row in items %}
+                                        <option value="{{row}}">{{row}}</option>
+                                    {% endfor %}
+                                </select>
                                 <div class="mb-3">
-                                    <label for="pantryName" class="form-label">Shopper ID</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Pantry ID</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Item ID</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Summary</label>
-                                    
+                                    <label for="exampleInputPassword1" class="form-label text-light">Quantity</label>
+                                    <input type="number" class="form-control" id="exampleInputPassword1" name = "quantity">
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name = 'anonymous' value = 'true'>
                                         <label class="form-check-label" for="exampleCheck1">Remain Anonymous</label>
                                     </div>
                                 </div>

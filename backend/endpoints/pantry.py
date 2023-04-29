@@ -39,6 +39,8 @@ def your_pantries(db: Session = Depends(get_db)):
 @router.get("/shopper-mypantries", response_class=HTMLResponse, tags=["Pantry"])
 def shopper_mypantries(request: Request, db: Session = Depends(get_db)):
     data = []
+    account_id = main.SESSION_DATA["id"]
+    db_account = crud.get_account_by_id(db, account_id=account_id)
     my_pantries = crud.get_myPantries_by_shopperID(db, main.SESSION_DATA["id"])
     for i in my_pantries:
         pantry = crud.get_pantry_by_id(db, i.pantry_id)
@@ -46,7 +48,8 @@ def shopper_mypantries(request: Request, db: Session = Depends(get_db)):
         data.append([pantry.name, pantry.address, manager_name])
 
     return templates.TemplateResponse('shopper-mypantries.html',{'request': request,
-                                                                 'data': data})
+                                                                 'data': data,
+                                                                 'name': db_account.name})
 
 
 @router.post("/pantry/", response_model=schemas.Pantry, tags=["Pantry"])
