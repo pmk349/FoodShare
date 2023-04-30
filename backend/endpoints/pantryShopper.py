@@ -28,7 +28,13 @@ def shopper_pantrybrowser(request: Request, db: Session = Depends(get_db)):
     for i in crud.get_pantries(db):
         manager = crud.get_account_by_id(db, i.manager_id)
         data.append([i.name, i.address, manager.name])
-    return templates.TemplateResponse('shopper-pantrybrowser.html',{'request': request,
+    
+    if main.SESSION_DATA["type"] == "shopper":
+        return templates.TemplateResponse('SO-pantrybrowser.html',{'request': request,
+                                                                    'data': data,
+                                                                    'name': db_account.name})
+    else:
+        return templates.TemplateResponse('shopper-pantrybrowser.html',{'request': request,
                                                                     'data': data,
                                                                     'name': db_account.name})
 

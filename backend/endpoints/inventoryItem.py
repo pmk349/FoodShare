@@ -57,7 +57,12 @@ def inventory_details(pantry_name: str, request: Request, db: Session = Depends(
         item = crud.get_inventoryItem_by_id(db, i.item_id)
         pantry = crud.get_pantry_by_id(db, i.pantry_id)
         data.append([pantry.name, item.item_type, item.quantity, item.expiration_date, item.summary])
-    return templates.TemplateResponse('inventory-details.html',{'request': request,
+    if main.SESSION_DATA["type"] == "shopper":
+        return templates.TemplateResponse('SO-inventory-details.html',{'request': request,
+                                                                'data': data,
+                                                                'name': db_account.name})
+    else:
+        return templates.TemplateResponse('inventory-details.html',{'request': request,
                                                                 'data': data,
                                                                 'name': db_account.name})
 

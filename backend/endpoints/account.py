@@ -40,7 +40,8 @@ async def signin(request: Request, db: Session = Depends(get_db),  email: str = 
     else:
         if db_account.password==utils.encrypt_password(password):
             if db_account.account_type=="shopper":
-                return templates.TemplateResponse('signin.html',{'request': request})
+                session.login(db, id=db_account.id, type='shopper')
+                return RedirectResponse("/shopper-mypantries", status_code=status.HTTP_303_SEE_OTHER)
             else:
                 session.login(db, id=db_account.id, type='manager')
                 return RedirectResponse("/manager-dashboard", status_code=status.HTTP_303_SEE_OTHER)
@@ -81,8 +82,10 @@ def signup(request: Request, db: Session = Depends(get_db), name: str = Form(), 
     if db_account:
         raise HTTPException(status_code=400, detail="Email already registered")
     crud.create_account(db=db, account=schemas.AccountCreate(name = name, email = email, password=password, account_type=account_type))
+    db_account = crud.get_account_by_email(db, email=email)
     if account_type == "shopper":
-        return True
+        session.login(db, id=db_account.id, type='shopper')
+        return RedirectResponse("/shopper-mypantries", status_code=status.HTTP_303_SEE_OTHER)
     else:
         session.login(db, id=db_account.id, type='manager')
         return RedirectResponse("/manager-dashboard", status_code=status.HTTP_303_SEE_OTHER)

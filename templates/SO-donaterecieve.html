@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>5 Donate or Recieve</title>
+    <title>Donate or Recieve</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -47,18 +47,13 @@ s
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3 bg-white">
             <nav class="navbar navbar-dark  bg-white">
-                <a href="/SO-pantrybrowser" class="navbar-brand mx-4 mb-3">
+                <a href="/manager-dashboard" class="navbar-brand mx-4 mb-3">
                     <h2 class="text-darkpurple"><i class="fa-solid fa-utensils me-2"></i>Food Share</h2>
                 </a>
                 <div class="navbar-nav navbar-darkest w-100 text-light">
-                    <div class="d-flex align-items-center ms-4 mb-4">
-                        <div class="text-light">
-                            <h4 class="mb-0 text-dark">Shopper View</h4>
-                        </div>
-                    </div>
-                    <a href="/SO-pantrybrowser" class="nav-item nav-link "><i class="fa-solid fa-house-chimney-user me-2"></i>Pantry Browser</a>
-                    <a href="/SO-donaterecieve" class="nav-item nav-link active"><i class="fa-solid fa-handshake me-2"></i>Donations and Requests</a>
-                    <a href="/SO-mypantries" class="nav-item nav-link"><i class="fa-solid fa-user me-2"></i>My Pantries</a>
+                    <a href="/shopper-pantrybrowser" class="nav-item nav-link "><i class="fa-solid fa-house-chimney-user me-2"></i>Pantry Browser</a>
+                    <a href="/shopper-donaterecieve" class="nav-item nav-link active"><i class="fa-solid fa-handshake me-2"></i>Donations and Requests</a>
+                    <a href="/shopper-mypantries" class="nav-item nav-link"><i class="fa-solid fa-user me-2"></i>My Pantries</a>
                 </div>
             </nav>
         </div>
@@ -69,8 +64,8 @@ s
         <div class="content">
             <!-- Navbar Start -->
             <nav id ="top_navbar" class="navbar navbar-expand bg-white navbar-dark sticky-top px-4 py-0 ">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-dark mb-0"><i class="fa fa-utensils"></i></h2>
+                <a href="#" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-dark mb-0"><i class="fa utensils"></i></h2>
                 </a>
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
@@ -82,7 +77,7 @@ s
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex text-offblack">John Doe</span>
+                            <span class="d-none d-lg-inline-flex text-offblack">{{name}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-grey border-0 rounded-0 rounded-bottom m-0">
                             <a href="/signin" class="text-offblack dropdown-item">Log Out</a>
@@ -105,9 +100,9 @@ s
                                 <tr class="bg-grey text-offblack">
                                     <th scope="col">Pantry Name</th>
                                     <th scope="col">Item Type</th>
+                                    <th scope="col">Quantity</th>
                                     <th scope="col">Expiration Date</th>
                                     <th scope="col">Summary</th>
-                                    <th scope="col">Image</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -117,7 +112,7 @@ s
                                         <td>{{row[1]}}</td>
                                         <td>{{row[2]}}</td>
                                         <td>{{row[3]}}</td>
-                                        <td><a class="btn btn-sm btn-primary" href="/manager-inventories">Details</a></td>
+                                        <td>{{row[4]}}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -163,11 +158,13 @@ s
                                     <label for="exampleInputPassword1" class="form-label">Summary</label>
                                     <input type="zipcode" class="form-control" id="exampleInputPassword1" name = "summary">
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name = 'anonymous' value = 'true'>
-                                        <label class="form-check-label" for="exampleCheck1">Remain Anonymous</label>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="anonymous">Remain Anonymous?</label>
+                                    <p>
+                                        <input type="radio" name="anonymous" value = 'true' checked>Yes</input>
+                                        &nbsp;
+                                        <input type="radio" name="anonymous" value = 'false'>No</input>
+                                    </p>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -177,76 +174,24 @@ s
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-white rounded h-100 p-4 text-light">
                             <h3 class="mb-4 text-offblack">Request Form</h3>
-                            <form method = "post" action = "/create_pantry">
+                            <form method = "post" action = "/create-requestForm">
+                                <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name = "item_summary">
+                                    <option selected>Item Summary</option>
+                                    {% for row in items %}
+                                        <option value="{{row}}">{{row}}</option>
+                                    {% endfor %}
+                                </select>
                                 <div class="mb-3">
-                                    <label for="pantryName" class="form-label">Shopper ID</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
+                                    <label for="exampleInputPassword1" class="form-label text-light">Quantity</label>
+                                    <input type="number" class="form-control" id="exampleInputPassword1" name = "quantity">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Pantry ID</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Item ID</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Quantity</label>
-                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="2">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Summary</label>
-                                    
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Remain Anonymous</label>
-                                    </div>
+                                    <label for="anonymous">Remain Anonymous?</label>
+                                    <p>
+                                        <input type="radio" name="anonymous" value = 'true' checked>Yes</input>
+                                        &nbsp;
+                                        <input type="radio" name="anonymous" value = 'false'>No</input>
+                                    </p>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
@@ -266,11 +211,11 @@ s
                 <div class="bg-white rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-light text-sm-start">
-                            &copy; <a href="/SO-pantrybrowser">Food Share</a>, All Right Reserved. 
+                            &copy; <a href="/manager-dashboard">Food Share</a>, All Right Reserved. 
                         </div>
                         <div class="col-12 col-sm-6 text-center text-sm-end text-light">
                             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                           Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
                         </div>
                     </div>
                 </div>

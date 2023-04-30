@@ -46,10 +46,14 @@ def shopper_mypantries(request: Request, db: Session = Depends(get_db)):
         pantry = crud.get_pantry_by_id(db, i.pantry_id)
         manager_name = (crud.get_account_by_id(db, pantry.manager_id)).name
         data.append([pantry.name, pantry.address, manager_name])
-
-    return templates.TemplateResponse('shopper-mypantries.html',{'request': request,
-                                                                 'data': data,
-                                                                 'name': db_account.name})
+    if main.SESSION_DATA["type"] == "shopper":
+        return templates.TemplateResponse('SO-mypantries.html',{'request': request,
+                                                                    'data': data,
+                                                                    'name': db_account.name})
+    else:
+        return templates.TemplateResponse('shopper-mypantries.html',{'request': request,
+                                                                    'data': data,
+                                                                    'name': db_account.name})
 
 
 @router.post("/pantry/", response_model=schemas.Pantry, tags=["Pantry"])
