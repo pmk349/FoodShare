@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>2 Manager Inventories</title>
+    <title>Manager Inventories</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -142,8 +142,12 @@ s
                             <h3 class="mb-4 text-offblack">Add Item</h3>
                             <form method = "post" action = "/add_item">
                                 <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="form-label">Pantry Name</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" name = "pantry">
+                                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example" name = "pantry_name">
+                                        <option selected>Pantry Name</option>
+                                        {% for row in pantry %}
+                                            <option value="{{row}}">{{row}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Item Type</label>

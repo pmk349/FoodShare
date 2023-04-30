@@ -113,7 +113,6 @@ def create_transactionRequest(db: Session = Depends(get_db),
         anonymous = True
     else:
         anonymous = False
-    print(anonymous)
     crud.create_transactionRequest(db=db, transactionRequest=schemas.TransactionRequestCreate(shopper_id = main.SESSION_DATA['id'],
                                                                                               pantry_id = pantry_id,
                                                                                               item_id = item_id,
@@ -130,7 +129,6 @@ def create_requestForm(db: Session = Depends(get_db), item_summary: str = Form()
     item = crud.get_inventoryItem_by_summary(db, item_summary)
     item_id = item.id
     pantry_id = (crud.get_inventory_pantryID_by_itemID(db, item_id))[0]
-    print(pantry_id)
     current_time = datetime.datetime.now().replace(microsecond=0)
     inventory_item = crud.get_inventoryItem_by_id(db, item_id)
     if anonymous == True:

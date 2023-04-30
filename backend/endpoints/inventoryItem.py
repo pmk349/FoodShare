@@ -27,10 +27,12 @@ router = APIRouter()
 @router.get("/manager-inventories", response_class=HTMLResponse, tags=["Inventory Item"])
 def manager_inventories(request: Request, db: Session = Depends(get_db)):
     items = []
+    pantry_names = []
     account_id = main.SESSION_DATA["id"]
     db_account = crud.get_account_by_id(db, account_id=account_id)
     pantries = your_pantries(db)
     for i in pantries:
+        pantry_names.append(i.name)
         inventory_items = crud.get_inventory_by_pantryID(db, i.id)
         items += inventory_items
 
@@ -43,6 +45,7 @@ def manager_inventories(request: Request, db: Session = Depends(get_db)):
         item_summary.append(item.summary)
     return templates.TemplateResponse('manager-inventories.html',{'request': request,
                                                                   'data': data,
+                                                                  'pantry': pantry_names,
                                                                   'items': item_summary,
                                                                   'name': db_account.name})
 
