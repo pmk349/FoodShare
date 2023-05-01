@@ -164,8 +164,9 @@ def approve_request(pantry_name: str, item_type: str, quantity: int, type: str, 
             crud.update_inventoryItem_quantity(db, pantry_id, item_id, quantity, False)
     return RedirectResponse("/manager-transactions", status_code=status.HTTP_303_SEE_OTHER)
 
-@router.post("/denyRequest/{pantry_name}/{item_type}", response_class=HTMLResponse, tags=["Transaction Request"])
+@router.get("/denyRequest/{pantry_name}/{item_type}", response_class=HTMLResponse, tags=["Transaction Request"])
 def deny_request(pantry_name: str, item_type: str, db: Session = Depends(get_db)):
+    print("hi")
     pantry_id = (crud.get_pantryID_by_name(db, pantry_name))[0]
     transaction_id = (crud.get_transactionID_by_item_pending(db, item_type))[0]
     crud.update_pending_transaction(db=db, pantry_id=pantry_id, transaction_id=transaction_id, status='denied')
