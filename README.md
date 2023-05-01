@@ -2,7 +2,9 @@
 
 ## Requirements:
 1. pgAdmin4 or another PostgreSQL server administation platform
-2. fastAPI, uvicorn
+2. fastAPI
+3. uvicorn
+4. sqlAlchemy
 
 ## Database Launch:
 1. start PostgreSQL server
