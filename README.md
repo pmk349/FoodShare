@@ -7,17 +7,17 @@
 4. sqlAlchemy
 
 ## Database Launch:
-1. start PostgreSQL server
-2. create a database named: 'foodshare_db' 
-	a. with username: 'postgres' 
-	b. and password: '19065RA2y'
-    c. server addr: 127.0.0.1
-    d. port: 8000
-3. run the SQL queries in the files:
-	a. database/sql/dll.sql
-	b. database/sql/dml.sql
+1. start PostgreSQL server </br>
+2. create a database named: 'foodshare_db'  </br>
+	a. with username: 'postgres'  </br>
+	b. and password: '19065RA2y' </br>
+    c. server addr: 127.0.0.1 </br>
+    d. port: 8000 </br>
+3. run the SQL queries in the files: </br>
+	a. database/sql/dll.sql </br>
+	b. database/sql/dml.sql </br>
 
-## Application Launch:
-1. navigate to backend/main.py
-2. on VS Code "Run without Debugging"
-3. navigate to http://127.0.0.1:8000
+## Application Launch: </br>
+1. navigate to backend/main.py </br>
+2. on VS Code "Run without Debugging" </br>
+3. navigate to http://127.0.0.1:8000 </br>
