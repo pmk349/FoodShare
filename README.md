@@ -9,8 +9,8 @@
 ## Database Launch:
 1. start PostgreSQL server </br>
 2. create a database named: 'foodshare_db'  </br>
-	a. with username: 'postgres'  </br>
-	b. and password: '19065RA2y' </br>
+	a. choose username and update database.py  </br>
+	b. choose password and update database.py </br>
     c. server addr: 127.0.0.1 </br>
     d. port: 8000 </br>
 3. run the SQL queries in the files: </br>
